@@ -1,0 +1,71 @@
+@import "./variables.scss";
+@import "./responsive.scss";
+
+body{ 
+  overflow: hidden;
+  background-color: $main-bg;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.main {
+  font-family: "Inter", sans-serif;
+  background-color: $main-bg;
+  color: $main-color;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.menuContainer {
+  width: 250px;
+  padding: 5px 20px;
+  border-right: 2px solid $soft-bg;
+  background-color: $main-bg-softer;
+
+  ::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  @include lg{
+    width: max-content;
+  }
+}
+
+.navbar { 
+  border-bottom: 2px solid $soft-bg;
+}
+
+.contentContainer {
+  padding: 5px 20px;
+  width: 100%;
+  background-color: $main-bg-soft;
+}
+
+.background-main-soft{
+  background-color: $main-bg-soft;
+}
+
+input[type=text]{
+  background: transparent;
+  outline: none;
+}
+::placeholder {
+  color:#d8f3dc;
+  opacity: 0.5 /* Firefox */
+}
