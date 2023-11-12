@@ -1,37 +1,12 @@
-// RequireAuth.tsx
-import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "./AuthContext"; // Correct the path to AuthContext if needed
+import { Navigate, useLocation } from 'react-router-dom'
+import { useAuth } from './AuthContext'
+import Layout from '../../layout/Layout'
 
-interface RequireAuthProps {
-  allowedRoles: string[];
-}
-
-const RequireAuth: React.FC<RequireAuthProps> = ({ allowedRoles }) => {
-  const { auth } = useContext(AuthContext);
-  const location = useLocation();
-
-  const storedAuthData = localStorage.getItem("authData");
-  if (!auth && (!storedAuthData || !hasRequiredAuthData(storedAuthData))) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  if (auth && auth.accessToken && auth.role && auth.id) {
-    if (allowedRoles.includes(auth.role)) {
-      return <Outlet />; // Render the nested route components
+export const RequireAuth = (children: any) => {
+    const location = useLocation()
+    const auth = useAuth()
+    if (!auth) {
+        return <Navigate to='/login' state={{ path: location.pathname }} />
     }
-  }
-
-  return <Navigate to="/login" state={{ from: location }} replace />;
-};
-
-const hasRequiredAuthData = (storedAuthData: any) => {
-  try {
-    const { accessToken, id, role } = JSON.parse(storedAuthData);
-    return accessToken && id && role;
-  } catch (error) {
-    return false;
-  }
-};
-
-export default RequireAuth;
+    return <Layout>{children}</Layout>
+}

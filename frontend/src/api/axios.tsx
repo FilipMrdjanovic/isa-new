@@ -1,21 +1,21 @@
-import axios from "axios";
+import axios from 'axios';
 
+const REACT_APP_API_KEY = 'http://localhost:8080/api';
 
 const axiosInstance = axios.create({
-  headers: { "Content-Type": "application/json" },
-  baseURL: process.env.REACT_APP_API,
-  withCredentials: false,
+    headers: { 'Content-Type': 'application/json' },
+    baseURL: REACT_APP_API_KEY,
+    withCredentials: false,
 });
 
-// Add an interceptor to include the JWT token in the request headers
 axiosInstance.interceptors.request.use((config) => {
-  const authDataString = localStorage.getItem("authData");
-  if (authDataString) {
-    const authData = JSON.parse(authDataString);
-    const token = authData.accessToken; // Use the correct key "accessToken" to get the token
-    config.headers["Authorization"] = `Bearer ${token}`;
-  }
-  return config;
+    const authDataString = localStorage.getItem('authData');
+    if (authDataString) {
+        const authData = JSON.parse(authDataString);
+        const token = authData.accessToken;
+        config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
 });
 
 export default axiosInstance;

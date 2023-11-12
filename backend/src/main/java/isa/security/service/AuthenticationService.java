@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,77 +36,91 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final EmailSender emailSender;
 
-    public String register(RegisterRequest request) {
-        // Check if the email already exists in the database
-        if (repository.existsByEmail(request.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered.");
+    public ResponseEntity<?> register(RegisterRequest request) {
+        try {
+            if (repository.existsByEmail(request.getEmail())) {
+                return ResponseEntity.badRequest().body("Email is already registered.");
+            }
+
+            Role role = switch (request.getRole()) {
+                case "COMPANY_ADMIN" -> Role.COMPANY_ADMIN;
+                case "SYSTEM_ADMIN" -> Role.SYSTEM_ADMIN;
+                default -> Role.USER;
+            };
+
+            var user = User.builder()
+                    .firstname(request.getFirstname())
+                    .lastname(request.getLastname())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(role)
+                    .city(request.getCity())
+                    .country(request.getCountry())
+                    .phone(request.getPhone())
+                    .occupation(request.getOccupation())
+                    .organization(request.getOrganization())
+                    .locked(false)
+                    .enabled(false)
+                    .build();
+
+            String verificationCode = generateVerificationCode();
+            user.setVerificationCode(verificationCode);
+
+            var savedUser = repository.save(user);
+            var jwtToken = jwtService.generateToken(user);
+            var refreshToken = jwtService.generateRefreshToken(user);
+            saveUserToken(savedUser, jwtToken);
+
+            var verificationLink = "http://localhost:8080/api/auth/verify?email=" + user.getEmail() + "&code=" + verificationCode;
+
+            sendVerificationEmail(savedUser, verificationLink);
+
+            return ResponseEntity.ok("Registration successful. To sign in, activate your account using the link sent to your email.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred during registration: " + e.getMessage());
         }
-
-        Role role = switch (request.getRole()) {
-            case "COMPANY_ADMIN" -> Role.COMPANY_ADMIN;
-            case "SYSTEM_ADMIN" -> Role.SYSTEM_ADMIN;
-            default -> Role.USER;
-        };
-
-        var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(role)
-                .city(request.getCity())
-                .country(request.getCountry())
-                .phone(request.getPhone())
-                .occupation(request.getOccupation())
-                .organization(request.getOrganization())
-                .locked(false)
-                .enabled(false)
-                .build();
-
-        String verificationCode = generateVerificationCode();
-        user.setVerificationCode(verificationCode);
-
-        var savedUser = repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
-
-        var code = "http://localhost:8080/api/auth/verify?email=" + user.getEmail() + "&code=" + verificationCode;
-
-        sendVerificationEmail(savedUser, code);
-
-        return "Registration successful. To sign in, activate account using link that was sent to your email.";
-//        return AuthenticationResponse.builder()
-//                .id(savedUser.getId())
-//                .accessToken(jwtToken)
-//                .refreshToken(refreshToken)
-//                .role(savedUser.getRole().toString())
-//                .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
-        if (user.getEnabled()) {
-            return AuthenticationResponse.builder()
-                    .id(user.getId())  // Include the user's ID in the response
-                    .accessToken(jwtToken)
-                    .refreshToken(refreshToken)
-                    .role(user.getRole().toString())  // Include the user's role in the response
-                    .build();
-        }
-        else {
-            return null;
+    public ResponseEntity<?> authenticate(AuthenticationRequest request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+
+            var user = repository.findByEmail(request.getEmail())
+                    .orElseThrow();
+
+            var jwtToken = jwtService.generateToken(user);
+            var refreshToken = jwtService.generateRefreshToken(user);
+            revokeAllUserTokens(user);
+            saveUserToken(user, jwtToken);
+
+            return ResponseEntity.ok(
+                    AuthenticationResponse.builder()
+                            .id(user.getId())  // Include the user's ID in the response
+                            .accessToken(jwtToken)
+                            .refreshToken(refreshToken)
+                            .role(user.getRole().toString())  // Include the user's role in the response
+                            .build()
+            );
+        } catch (AuthenticationException e) {
+            var user = repository.findByEmail(request.getEmail());
+            if (user.isPresent()){
+                var _user = user.get();
+                if (!_user.getEnabled()) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                            .body("Account not verified. Please verify your email first.");
+                }
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid credentials. Please check your email and password.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred during authentication: " + e.getMessage());
         }
     }
 

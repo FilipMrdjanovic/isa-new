@@ -1,16 +1,25 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useState, ChangeEvent } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axiosInstance from '../../api/axios';
+import { useAuth } from '../../api/auth/AuthContext';
+
+interface FormData {
+    email: string;
+    password: string;
+}
 
 const useLogin = () => {
-    const navigator = useNavigate();
-    const [formData, setFormData] = useState({
+    const navigate = useNavigate();
+    const location = useLocation()
+    const auth = useAuth()
+
+    const [formData, setFormData] = useState<FormData>({
         email: '',
         password: '',
     });
 
-    const handleChange = (event: any) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -20,30 +29,24 @@ const useLogin = () => {
 
     const login = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API}/auth/authenticate`, formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const response: any = await axiosInstance.post('/auth/authenticate', formData);
+            if (response.data.statusCodeValue === 200) {
 
-            if (response.status === 200) {
-                console.log(response.data);
-                toast.success("Login successful!");
-                navigator("/");
+                const redirectPath = location.state?.path || '/dashboard'
+                auth.login(response.data.body)
+                navigate(redirectPath, { replace: true })
             } else {
-                console.error(response.data);
-                toast.error("Login failed!");
-                // Handle login failure, show an error message, or take appropriate action
+                toast.error(response.data.body);
             }
-        } catch (error) {
-            console.error('Error during login:', error);
+        } catch (error: any) {
+            console.error('Error during login: ', error.message);
         }
     };
 
     return {
         formData,
         handleChange,
-        login
+        login,
     };
 };
 

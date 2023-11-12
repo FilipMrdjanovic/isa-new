@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axiosInstance from '../../api/axios';
 
 const useRegister = () => {
-    const navigator = useNavigate()
+    const navigator = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -34,33 +35,23 @@ const useRegister = () => {
         }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API}/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                console.log('Registration successful');
-                toast.success("Registration success!")
-                navigator("/login")
-
+            const response = await axiosInstance.post('/auth/register', formData);
+            if (response.data.statusCodeValue === 200) {
+                toast.success(response.data.body);
+                navigator('/login');
             } else {
-                console.error('Registration failed');
-                toast.error("Registration failed!")
-                // Handle registration failure, show an error message, or take appropriate action
+                console.error(response.data);
+                toast.error(response.data.body);
             }
-        } catch (error) {
-            console.error('Error during registration:', error);
+        } catch (error: any) {
+            console.error('Error during registration: ', error.message);
         }
     };
 
     return {
         formData,
         handleChange,
-        register
+        register,
     };
 };
 

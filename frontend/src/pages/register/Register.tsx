@@ -4,7 +4,6 @@ import { Container, Box, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import useRegister from './useRegister';
 import theme from '../../theme/theme';
-import './Register.scss';
 
 const Register = () => {
     const { formData, handleChange, register } = useRegister();
@@ -20,7 +19,7 @@ const Register = () => {
                 <Container
                     component="main"
                     maxWidth="xs"
-                    className="register-container"
+                    className="_container"
                 >
                     <Box className="box">
                         <Typography component="h1" variant="h5">

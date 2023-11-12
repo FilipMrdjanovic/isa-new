@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import { Container, Box, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import theme from '../../theme/theme';
-import './Login.scss';
 import useLogin from './useLogin';
 
 const Login = () => {
@@ -20,7 +19,7 @@ const Login = () => {
                 <Container
                     component="main"
                     maxWidth="xs"
-                    className="login-container"
+                    className="_container"
                 >
                     <Box className="box">
                         <Typography component="h1" variant="h5">
