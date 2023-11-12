@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final EmailSender emailSender;
 
-    public ResponseEntity<?> register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
         // Check if the email already exists in the database
         if (repository.existsByEmail(request.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered.");
@@ -73,7 +74,7 @@ public class AuthenticationService {
 
         sendVerificationEmail(savedUser, code);
 
-        return ResponseEntity.ok("Registration successful. To sign in, activate account using link that was sent to your email.");
+        return "Registration successful. To sign in, activate account using link that was sent to your email.";
 //        return AuthenticationResponse.builder()
 //                .id(savedUser.getId())
 //                .accessToken(jwtToken)
@@ -82,7 +83,7 @@ public class AuthenticationService {
 //                .build();
     }
 
-    public ResponseEntity<?> authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -96,15 +97,15 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         if (user.getEnabled()) {
-            return ResponseEntity.ok(AuthenticationResponse.builder()
+            return AuthenticationResponse.builder()
                     .id(user.getId())  // Include the user's ID in the response
                     .accessToken(jwtToken)
                     .refreshToken(refreshToken)
                     .role(user.getRole().toString())  // Include the user's role in the response
-                    .build());
+                    .build();
         }
         else {
-            return ResponseEntity.ok("Access denied. Activate account with verification code send to your email.");
+            return null;
         }
     }
 

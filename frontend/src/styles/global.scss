@@ -69,3 +69,28 @@ input[type=text]{
   color:#d8f3dc;
   opacity: 0.5 /* Firefox */
 }
+
+
+
+.styledInput {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  border-bottom: 2px solid #d8f3dc;
+  box-sizing: border-box;
+  background: transparent;
+  color: #d8f3dc;
+  outline: none;
+}
+
+.StyledSelect {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

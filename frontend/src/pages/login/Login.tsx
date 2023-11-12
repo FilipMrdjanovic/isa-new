@@ -2,28 +2,26 @@ import { ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { Container, Box, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { StyledTextInput } from '../../components/common/common';
 import theme from '../../theme/theme';
-import './Login.scss'
+import './Login.scss';
+import useLogin from './useLogin';
 
 const Login = () => {
-
-    const handleSubmit = (event: any) => {
+    
+    const { formData, handleChange, login } = useLogin();
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        await login();
     };
+
     return (
         <ThemeProvider theme={theme}>
             <div className='full-height-wrapper'>
-
                 <Container
                     component="main"
                     maxWidth="xs"
-                    className="login-container">
+                    className="login-container"
+                >
                     <Box className="box">
                         <Typography component="h1" variant="h5">
                             Sign in
@@ -35,14 +33,38 @@ const Login = () => {
                             sx={{ mt: 1 }}
                             className='form'
                         >
-                            <StyledTextInput required autoComplete="email" autoFocus placeholder="Email Address" />
-                            <StyledTextInput required autoComplete="password" autoFocus type='password' placeholder="Password" />
-                            <Button className="button" type='submit' variant="contained" color="teal" sx={{ margin: "10px 0" }} >
+                            <input
+                                className="styledInput"
+                                type="email"
+                                name="email"
+                                required
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="Email Address"
+                            />
+
+                            <input
+                                className="styledInput"
+                                type="password"
+                                name="password"
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Password"
+                            />
+
+                            <Button
+                                className="button"
+                                type='submit'
+                                variant="contained"
+                                color="teal"
+                                sx={{ margin: "10px 0" }}
+                            >
                                 Submit
                             </Button>
                             <Grid container>
                                 <Grid item>
-                                    <Link to="/">
+                                    <Link to="/register">
                                         <Typography variant='body2'>Don't have an account? Sign Up</Typography>
                                     </Link>
                                 </Grid>
@@ -53,5 +75,6 @@ const Login = () => {
             </div>
         </ThemeProvider>
     );
-}
+};
+
 export default Login;
