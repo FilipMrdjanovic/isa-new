@@ -127,6 +127,7 @@ public class AuthenticationService {
     private String generateVerificationCode() {
          return UUID.randomUUID().toString().substring(0, 6);
     }
+
     private void sendVerificationEmail(User user, String verificationCode) {
         emailSender.send(user.getEmail(), buildEmail(user.getFirstname(), verificationCode));
     }
@@ -176,13 +177,15 @@ public class AuthenticationService {
 
     public ResponseEntity<?> refreshToken(String expiredToken) {
         try {
-
+            jwtService.verifyToken(expiredToken);
             User user = getUserFromExpiredToken(expiredToken);
             String newAccessToken = generateAndSaveNewAccessToken(user);
 
             return ResponseEntity.ok(newAccessToken);
         } catch (ExpiredJwtException e) {
-            return ResponseEntity.badRequest().body("Token has expired and cannot be refreshed.");
+            return ResponseEntity.badRequest().body(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

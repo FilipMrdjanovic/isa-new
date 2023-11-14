@@ -39,29 +39,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            // Token is not provided or in an invalid format
+            SecurityContextHolder.clearContext(); // Clear any existing authentication
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or missing token");
             return;
         }
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            var isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
-            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+        if (userEmail == null || SecurityContextHolder.getContext().getAuthentication() != null) {
+            // Token does not belong to a user or authentication already exists
+            SecurityContextHolder.clearContext(); // Clear any existing authentication
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+            return;
         }
-        filterChain.doFilter(request, response);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+        var isTokenValid = tokenRepository.findByToken(jwt)
+                .map(t -> !t.isExpired() && !t.isRevoked())
+                .orElse(false);
+        if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
+            authToken.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request)
+            );
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+            filterChain.doFilter(request, response);
+        } else {
+            // Token is not valid
+            SecurityContextHolder.clearContext(); // Clear any existing authentication
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+        }
     }
+
 }

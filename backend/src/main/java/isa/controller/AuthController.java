@@ -1,5 +1,6 @@
 package isa.controller;
 
+import io.jsonwebtoken.Jwts;
 import isa.payload.request.AuthenticationRequest;
 import isa.payload.request.RegisterRequest;
 import isa.payload.response.AuthenticationResponse;

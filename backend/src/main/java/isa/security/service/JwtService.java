@@ -91,4 +91,12 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    public void verifyToken(String token) throws Exception {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+        } catch (Exception e) {
+            throw new Exception("Invalid token");
+        }
+    }
 }
