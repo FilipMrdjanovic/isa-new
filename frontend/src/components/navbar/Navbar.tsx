@@ -32,10 +32,12 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <div className="logo">
-                <img src="logo.svg" alt="" />
-                <span>EQUICENTRE</span>
-            </div>
+            <NavLink to="/">
+                <div className="logo">
+                    <img src="logo.svg" alt="" />
+                    <span>EQUICENTRE</span>
+                </div>
+            </NavLink>
             <div className="icons" onClick={handleClick}>
                 <div className="user">
                     <img

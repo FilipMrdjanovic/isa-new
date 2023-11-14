@@ -2,7 +2,11 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import Menu from "../components/menu/Menu";
 
-const Layout = () => { // Fix the parameter here
+type LayoutProps = {
+    children: React.ReactNode;
+  };
+
+const Layout = (props: LayoutProps) => { // Fix the parameter here
     return (
         <div className="main">
             <Navbar />
@@ -12,6 +16,7 @@ const Layout = () => { // Fix the parameter here
                 </div>
                 <div className="contentContainer">
                     <Outlet />
+                    {props.children}
                 </div>
             </div>
         </div>

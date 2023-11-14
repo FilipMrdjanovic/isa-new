@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useAuth } from './auth/AuthContext';
 
 const REACT_APP_API_KEY = 'http://localhost:8080/api';
 
@@ -17,5 +18,17 @@ axiosInstance.interceptors.request.use((config) => {
     }
     return config;
 });
+
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            const { setUnauthorized } = useAuth();
+            setUnauthorized(true);
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default axiosInstance;
