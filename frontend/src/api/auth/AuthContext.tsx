@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, useContext, useEffect, useState } from "react";
-import { AuthData } from "../../types/authData";
+import { AuthData } from "../../types/types";
 
 export interface AuthContextValue {
     auth: AuthData;

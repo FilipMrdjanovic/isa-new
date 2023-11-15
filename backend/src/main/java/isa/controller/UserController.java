@@ -1,67 +1,40 @@
 package isa.controller;
 
-import isa.model.Rank;
 import isa.model.User;
 import isa.payload.request.UpdateForm;
-import isa.repository.RankRepository;
+import isa.payload.request.UpdatePasswordRequest;
 import isa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserService service;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        User user = userService.getUserById(userId);
-        return ResponseEntity.ok(user);
+    @GetMapping("/me")
+    public User getCurrentUser(@AuthenticationPrincipal User currentUser) {
+        return service.getUserById(currentUser.getId());
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<User> getUserByIdOrEmail(@RequestParam String idOrEmail) {
-        User user = userService.getUserByIdOrEmail(idOrEmail);
-        return ResponseEntity.ok(user);
+    @GetMapping("/rank")
+    public ResponseEntity<?> getUserRank(@AuthenticationPrincipal User currentUser) {
+        return service.getUserRank(currentUser.getId());
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UpdateForm updateForm) {
-        User updatedUser = userService.updateUser(userId, updateForm);
-        return ResponseEntity.ok(updatedUser);
+    @PutMapping("/update")
+    public User updateUserData(@AuthenticationPrincipal User currentUser, @RequestBody UpdateForm updatedUser) {
+        return service.updateUser(currentUser.getId(), updatedUser);
     }
 
-    @PutMapping("/{userId}/password")
-    public ResponseEntity<User> updatePassword(@PathVariable Long userId,
-                                               @RequestParam String currentPassword,
-                                               @RequestParam String newPassword) {
-        User updatedUser = userService.updatePassword(userId, currentPassword, newPassword);
-        return ResponseEntity.ok(updatedUser);
+    @PutMapping("/update/password")
+    public User updatePassword(@AuthenticationPrincipal User currentUser, @RequestBody UpdatePasswordRequest updatePasswordRequest) {
+        return service.updatePassword(currentUser.getId(), updatePasswordRequest.getCurrentPassword(), updatePasswordRequest.getNewPassword());
     }
 
-    @GetMapping("/{userId}/rank")
-    public ResponseEntity<?> getUserRank(@PathVariable Long userId) {
-        return userService.getUserRank(userId);
-    }
-
-    @GetMapping("/{userId}/rank-type")
-    public ResponseEntity<Optional<Rank>> getUserRankAndType(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.getUserRankAndType(userId));
-    }
-
-    @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.saveUser(user));
-    }
-
-    @PatchMapping("/{userId}")
-    public ResponseEntity<User> modifyUser(@PathVariable Long userId, @RequestBody UpdateForm updateForm) {
-        User modifiedUser = userService.modifyUser(updateForm, userId);
-        return ResponseEntity.ok(modifiedUser);
-    }
 }

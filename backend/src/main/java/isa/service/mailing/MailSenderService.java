@@ -30,7 +30,7 @@ public class MailSenderService implements EmailSender{
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject("Confirm your email");
-            helper.setFrom("xxmrkixx@gmail.com");
+            helper.setFrom("info@equicentre.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);

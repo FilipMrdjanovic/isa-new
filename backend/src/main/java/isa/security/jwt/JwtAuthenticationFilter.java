@@ -36,6 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
@@ -45,18 +46,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or missing token");
             return;
         }
+
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
         if (userEmail == null || SecurityContextHolder.getContext().getAuthentication() != null) {
             // Token does not belong to a user or authentication already exists
             SecurityContextHolder.clearContext(); // Clear any existing authentication
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+
             return;
         }
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
         var isTokenValid = tokenRepository.findByToken(jwt)
                 .map(t -> !t.isExpired() && !t.isRevoked())
                 .orElse(false);
+
         if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
@@ -68,6 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             );
             SecurityContextHolder.getContext().setAuthentication(authToken);
             filterChain.doFilter(request, response);
+
         } else {
             // Token is not valid
             SecurityContextHolder.clearContext(); // Clear any existing authentication

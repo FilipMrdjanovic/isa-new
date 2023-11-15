@@ -36,7 +36,7 @@ a {
   padding: 20px;
   background: #2d6a4f;
   color: #d8f3dc;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
 }
 
@@ -60,10 +60,15 @@ a {
 }
 
 .contentContainer {
+  position: relative;
   padding: 5px 20px;
   width: 100%;
+  height: calc(100% - 67px);
   background-color: $main-bg-soft;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
 
 .background-main-soft{
   background-color: $main-bg-soft;

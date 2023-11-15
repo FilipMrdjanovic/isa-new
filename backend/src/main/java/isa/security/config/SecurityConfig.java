@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeRequests(
                         authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll() // Allow access to authentication endpoint
                                 .anyRequest().authenticated())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

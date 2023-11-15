@@ -3,18 +3,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../api/axios';
 import { useAuth } from '../../api/auth/AuthContext';
+import { LoginFormData } from '../../types/types';
 
-interface FormData {
-    email: string;
-    password: string;
-}
+
 
 const useLogin = () => {
     const navigate = useNavigate();
     const location = useLocation()
     const auth = useAuth()
 
-    const [formData, setFormData] = useState<FormData>({
+    const [formData, setFormData] = useState<LoginFormData>({
         email: '',
         password: '',
     });

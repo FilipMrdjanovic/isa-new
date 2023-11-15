@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from 'react-router-dom'
 import { useState } from "react";
 import { MenuItem, Divider } from "@mui/material";
@@ -7,11 +7,14 @@ import Logout from "@mui/icons-material/Logout";
 import { StyledMenu } from "../common/common";
 import { useAuth } from "../../api/auth/AuthContext";
 import "./navbar.scss";
+import axiosInstance from "../../api/axios";
 
 const Navbar = () => {
     const auth = useAuth()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+    const [name, setName] = useState("User")
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -30,6 +33,15 @@ const Navbar = () => {
         auth.logout()
     };
 
+    useEffect(() => {
+        const getName = () => {
+            axiosInstance.get("/user/me").then((response: any) => {
+                setName(response.data.firstname);
+            });
+        };
+        getName();
+    }, []);
+    
     return (
         <div className="navbar">
             <NavLink to="/">
@@ -44,7 +56,7 @@ const Navbar = () => {
                         src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
                         alt=""
                     />
-                    <span>Admin</span>
+                    <span>{name}</span>
                 </div>
             </div>
             <StyledMenu

@@ -1,0 +1,52 @@
+@import "../../styles/variables.scss";
+
+.content-wrapper {
+  width: 100%;
+  border-top: 5px solid $main-bg-softer;
+  border-bottom: 5px solid $main-bg-softer;
+  border-radius: 10px;
+  background-color: $main-color;
+  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+  color: black;
+  margin: 5px 0;
+}
+
+.content-header,
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  width: 100%;
+}
+
+.box-profile {
+  border-radius: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.box-profile img, h3, p{
+  margin: 5px 0;
+}
+.box-profile h3, p{
+  align-items: le;
+}
+
+.profile-user-img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover; 
+}
+
+.img-circle {
+  border-radius: 50%;
+}
+
+.text-center {
+  text-align: center;
+}
