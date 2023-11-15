@@ -23,7 +23,6 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
-
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
@@ -34,7 +33,7 @@ public class SecurityConfig {
         http
                 .csrf()
                 .disable()
-                .authorizeHttpRequests(
+                .authorizeRequests(
                         authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().authenticated())
@@ -42,15 +41,14 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandler()) // Register the custom AccessDeniedHandler
+                .accessDeniedHandler(accessDeniedHandler())
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsFilter(), JwtAuthenticationFilter.class); // Add the CorsFilter before JwtAuthenticationFilter
+                .addFilterBefore(corsFilter(), JwtAuthenticationFilter.class);
 
         return http.build();
     }
-
 
     @Bean
     public CorsFilter corsFilter() {

@@ -8,8 +8,6 @@ export interface AuthContextValue {
     isAuthenticated: boolean;
     login: (auth: AuthData) => void;
     logout: () => void;
-    unauthorized: (flag: boolean) => void;
-    setUnauthorized: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextValue>({
@@ -17,8 +15,6 @@ export const AuthContext = createContext<AuthContextValue>({
     isAuthenticated: false,
     login: () => { },
     logout: () => { },
-    unauthorized: () => {},
-    setUnauthorized: () => {},
 });
 
 type AuthProps = {
@@ -38,15 +34,19 @@ export const AuthProvider = (props: AuthProps) => {
     const [isAuthenticated, stIsAuthenticated] = useState<boolean>(
         storedAuthData ? true : false
     );
-    
-    const [unauthorized, setUnauthorized] = useState<boolean>(false);
 
     useEffect(() => {
-        if (unauthorized) {
-            logout();
-            setUnauthorized(false);
-        }
-    }, [unauthorized, isAuthenticated]);
+        const handleCustomEvent = () => {
+          console.log('Custom event 401 triggered. Token not recognized - UNAUTHORIZED');
+          logout()
+        };
+    
+        document.addEventListener('customEvent401', handleCustomEvent);
+    
+        return () => {
+          document.removeEventListener('customEvent401', handleCustomEvent);
+        };
+      }, []);
 
     const login = (auth: AuthData) => {
         setAuth(auth)
@@ -65,8 +65,6 @@ export const AuthProvider = (props: AuthProps) => {
         isAuthenticated,
         login,
         logout,
-        unauthorized: (flag: boolean) => setUnauthorized(flag),
-        setUnauthorized,
     };
 
     return (
