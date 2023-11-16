@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthData } from "../../types/types";
+import { toast } from "react-toastify";
 
 export interface AuthContextValue {
     auth: AuthData;
@@ -37,16 +38,18 @@ export const AuthProvider = (props: AuthProps) => {
 
     useEffect(() => {
         const handleCustomEvent = () => {
-          console.log('Custom event 401 triggered. Token not recognized - UNAUTHORIZED');
-          logout()
+            console.log('Custom event 401 triggered. Token not recognized - UNAUTHORIZED');
+            toast.warning("Token not recognized!")
+            toast.warning("Logging out!")
+            logout()
         };
-    
+
         document.addEventListener('customEvent401', handleCustomEvent);
-    
+
         return () => {
-          document.removeEventListener('customEvent401', handleCustomEvent);
+            document.removeEventListener('customEvent401', handleCustomEvent);
         };
-      }, []);
+    }, []);
 
     const login = (auth: AuthData) => {
         setAuth(auth)

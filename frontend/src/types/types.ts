@@ -30,3 +30,25 @@ export interface UpdatePassword {
   newPassword: string;
   confirmNewPassword: string;
 }
+
+export interface FilterTableCompanies {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  averageRating: number;
+}
+
+export interface FilterTableCompaniesParams {
+  searchText: string;
+  minRating: number;
+  maxRating: number;
+  exactRating: number;
+}
+
+export type FilterCheckOptions = {
+  searchText: boolean;
+  minRating: boolean;
+  maxRating: boolean;
+  exactRating: boolean;
+};

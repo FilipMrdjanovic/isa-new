@@ -1,0 +1,113 @@
+@import "../../styles/variables.scss";
+
+.table {
+  width: 100%;
+  border-top: none;
+  border-bottom: none;
+  background-color: $main-color;
+  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+  color: black;
+  margin: 5px 0;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.tbl-inputs {
+  display: flex;
+  width: 100%;
+  background-color: $main-bg-softer;
+  padding: 5px 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.tbl-inputs .text {
+  width: 30px;
+  padding-left: 10px;
+  text-align: left;
+  color: white;
+}
+.tbl-inputs .label {
+  margin: 0px 10px;
+  text-align: center;
+  color: white;
+}
+
+.tbl-header {
+  background-color: $main-bg-softer;
+  color: $soft-color !important;
+}
+
+.tbl-content {
+  height: 488px;
+  overflow-x: auto;
+  margin-top: 0px;
+}
+
+th {
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  /* color: #fff; */
+  text-transform: uppercase;
+}
+
+td {
+  padding: 15px;
+  text-align: left;
+  vertical-align: middle;
+  font-weight: 300;
+  font-size: 12px;
+}
+
+tbody tr {
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+}
+
+tbody tr:nth-child(2n) {
+  background-color: $soft-color;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+
+  border: 1px solid grey;
+  width: 150px;
+}
+
+.menu > li {
+  margin: 0;
+
+  background-color: white;
+}
+
+.menu > li:hover {
+  background-color: lightgray;
+}
+
+.menu > li > button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 5px;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}

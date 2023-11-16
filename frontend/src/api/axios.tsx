@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(
     (error) => {
         if (error.response) {
             console.log('Error response:', error.response);
-            if (error.response.status === 401) {
+            if (error.response.status === 401 || error.response.status === 403) {
                 handleUnauthorized();
             }
         } else if (error.request) {

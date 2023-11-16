@@ -1,9 +1,10 @@
+import FilterTable from "../../components/table/FilterTable"
 import "./Dashboard.scss"
 
 const Dashboard = () => {
     return (
         <div className="Dashboard">
-            Dashboard
+            <FilterTable/>
         </div>
     )
 }

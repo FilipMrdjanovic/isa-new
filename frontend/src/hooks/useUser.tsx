@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, ChangeEvent } from "react";
-import axiosPrivate from "../api/axios";
 import { toast } from "react-toastify";
 import { UpdatePassword, UserData } from "../types/types";
+import axiosPrivate from "../api/axios";
 
-const USERS_URL = "/user/";
+const USER_URL = "/user/";
 
 const useUser = () => {
     const [userRank, setUserRank] = useState<any>([]);
-    const [userData, serUserData] = useState<UserData>({
+    const [userData, setUserData] = useState<UserData>({
         email: "",
         firstname: "",
         lastname: "",
@@ -30,7 +30,7 @@ const useUser = () => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        serUserData((prevData) => ({
+        setUserData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
@@ -45,26 +45,32 @@ const useUser = () => {
 
     const fetchUserData = async () => {
         try {
-            const response = await axiosPrivate.get(USERS_URL + "me");
+            const response = await axiosPrivate.get(USER_URL + "me");
             const userData = response.data;
-            serUserData(userData);
-        } catch (error) {
+            setUserData(userData);
+        } catch (error: any) {
+                error.response && error.response.data
+                    ? error.response.data.message
+                    : "Error";
             toast.error("Failed to fetch user data");
         }
     };
 
     const getUserRank = async () => {
         try {
-            const response = await axiosPrivate.get(USERS_URL + "rank");
+            const response = await axiosPrivate.get(USER_URL + "rank");
             setUserRank(response.data);
-        } catch (error) {
+        } catch (error: any) {
+                error.response && error.response.data
+                    ? error.response.data.message
+                    : "Error";
             toast.error("There is a problem with user's rank.")
         }
     };
 
     const updateProfile = async () => {
         try {
-            await axiosPrivate.put(USERS_URL + `update`, {
+            await axiosPrivate.put(USER_URL + `update`, {
                 firstname: userData.firstname,
                 lastname: userData.lastname,
                 city: userData.city,
@@ -74,7 +80,10 @@ const useUser = () => {
                 organization: userData.organization
             });
             toast.success("Profile updated successfully!");
-        } catch (error) {
+        } catch (error: any) {
+                error.response && error.response.data
+                    ? error.response.data.message
+                    : "Error";
             toast.error("Failed to update profile.");
         }
     };
@@ -92,7 +101,7 @@ const useUser = () => {
 
         try {
             await axiosPrivate.put(
-                USERS_URL + `update/password`,
+                USER_URL + `update/password`,
                 { 
                     currentPassword: userPassword.currentPassword, 
                     newPassword: userPassword.newPassword 
@@ -100,11 +109,10 @@ const useUser = () => {
             );
             toast.success("Password updated successfully!");
         } catch (error: any) {
-            const errorMessage =
                 error.response && error.response.data
                     ? error.response.data.message
-                    : "Failed to update password.";
-            toast.error(errorMessage);
+                    : "Error";
+            toast.error("Failed to update password");
         }
     };
 

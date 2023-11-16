@@ -55,6 +55,7 @@ a {
   }
 }
 
+
 .navbar { 
   border-bottom: 2px solid $soft-bg;
 }
@@ -96,6 +97,10 @@ input[type=text]{
   outline: none;
 }
 
+.styledInput::-ms-reveal {
+  filter: invert(100%);
+}
+
 .StyledSelect {
   width: 100%;
   padding: 12px 20px;
@@ -130,3 +135,10 @@ input[type=text]{
   transform: translateX(-50%);
 }
 
+.w300{
+  width: 300px;
+}
+
+.w100{
+  width: 100px;
+}

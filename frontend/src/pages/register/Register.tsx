@@ -32,16 +32,18 @@ const Register = () => {
                             sx={{ mt: 1 }}
                             className='form'
                         >
-                            <input
-                                className="styledInput"
-                                type="email"
-                                name="email"
-                                required
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="Email Address"
-                            />
                             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                <Grid item xs={12}>
+                                    <input
+                                        className="styledInput"
+                                        type="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Email Address"
+                                    />
+                                </Grid>
                                 <Grid item xs={6}>
                                     <input
                                         className="styledInput"
@@ -130,16 +132,18 @@ const Register = () => {
                                         placeholder="Organization"
                                     />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <input
+                                        className="styledInput"
+                                        type="text"
+                                        name="phone"
+                                        required
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        placeholder="Phone"
+                                    />
+                                </Grid>
                             </Grid>
-                            <input
-                                className="styledInput"
-                                type="text"
-                                name="phone"
-                                required
-                                value={formData.phone}
-                                onChange={handleChange}
-                                placeholder="Phone"
-                            />
                             <Button
                                 className="button"
                                 type='submit'

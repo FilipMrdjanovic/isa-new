@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CenterProfileResponse {
+public class CompanyFilterResponse {
     private Long id;
-    private String centerName;
+    private String companyName;
     private String address;
     private Double averageRating;
 }
