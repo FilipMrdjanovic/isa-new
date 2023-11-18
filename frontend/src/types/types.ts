@@ -46,9 +46,15 @@ export interface FilterTableCompaniesParams {
   exactRating: number;
 }
 
+export interface FilterData {
+    searchText?: string;
+    minRating?: number;
+    maxRating?: number;
+    exactRating?: number;
+}
+
 export type FilterCheckOptions = {
   searchText: boolean;
-  minRating: boolean;
-  maxRating: boolean;
+  minMaxRating: boolean;
   exactRating: boolean;
 };

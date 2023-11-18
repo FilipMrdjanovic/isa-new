@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FilterCheckOptions, FilterTableCompanies, FilterTableCompaniesParams } from "../types/types";
 import axiosPrivate from "../api/axios";
@@ -7,6 +7,7 @@ const COMPANY_URL = "/company/";
 
 const useCompany = () => {
     const [tableData, setTableData] = useState<FilterTableCompanies[]>([]);
+    const [filter, setFilter] = useState(false)
     const [filterData, setFilterData] = useState<FilterTableCompaniesParams>({
         searchText: "",
         minRating: 1,
@@ -14,16 +15,15 @@ const useCompany = () => {
         exactRating: 1,
     })
 
-    const [isChecked, setIsChecked] = useState<FilterCheckOptions>({
+    const [checkbox, setCheckbox] = useState<FilterCheckOptions>({
         searchText: false,
-        minRating: false,
-        maxRating: false,
+        minMaxRating: false,
         exactRating: false,
-    });
+    })
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setTableData((prevData) => ({
+        setCheckbox((prevData) => ({
             ...prevData,
             [name]: value,
         }));
@@ -35,59 +35,101 @@ const useCompany = () => {
             ...prevData,
             [name]: value,
         }));
-    }; 
-    
-    const handleCheckChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setIsChecked((prevData) => ({
+    };
+
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = event.target;
+        setCheckbox((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: checked,
         }));
 
-        console.log(name, value);
+        if (name === "searchText" && checked === true) {
+            if (filterData.searchText !== "") {
+                setCheckbox((prevData) => ({
+                    ...prevData,
+                    searchText: true,
+                }));
+            } else {
+                setCheckbox((prevData) => ({
+                    ...prevData,
+                    searchText: false,
+                }));
+                toast.warning("Search input must not be empty")
+                return;
+            }
+        }
+
+        if (checkbox.minMaxRating) {
+            setCheckbox((prevData) => ({
+                ...prevData,
+                exactRating: false,
+            }));
+        }
+
+        if (checkbox.exactRating) {
+            setCheckbox((prevData) => ({
+                ...prevData,
+                minMaxRating: false,
+            }));
+        }
     };
+
+    const handleResetFilter = () => {
+        setFilter(false)
+        fetchCompanyData()
+    }
 
     const fetchCompanyData = async () => {
         try {
-            await axiosPrivate.get(COMPANY_URL + "all")
-                .then((response: any) => {
-                    setTableData(response.data)
-                })
+            const response = await axiosPrivate.get(COMPANY_URL + "all");
+            setTableData(response.data);
         } catch (error: any) {
-            error.response && error.response.data
-                ? error.response.data.message
-                : "Error";
             toast.error("Failed to fetch company data");
         }
     };
 
     const filterCompanyData = async () => {
         try {
-            var params = {
-                filterData
+            let params = "";
+            if (checkbox.searchText === true)
+                params += "&searchText=" + filterData.searchText;
+            if (checkbox.minMaxRating === true)
+                params += "&minRating=" + filterData.minRating + "&maxRating=" + filterData.maxRating;
+            if (checkbox.exactRating === true)
+                params += "&exactRating=" + filterData.exactRating;
+
+            if (params === "") {
+                toast.warning("You need to choose at least one filter!");
+                return;
             }
-            await axiosPrivate.get(COMPANY_URL + "filter", { params })
-                .then((response: any) => {
-                    setFilterData(response.data)
-                });
+            params = params.slice(1);
+
+            const response = await axiosPrivate.get(COMPANY_URL + "filter?" + params);
+            setTableData(response.data);
+            console.log(response.data);
         } catch (error: any) {
-            error.response && error.response.data
-                ? error.response.data.message
-                : "Error";
             toast.error("Failed to filter company data");
         }
     }
 
+    useEffect(() => {
+        if (!filter) {
+            fetchCompanyData();
+        }
+    }, [filter])
+
+
     return {
         tableData,
         filterData,
-        isChecked,
+        checkbox,
         handleChange,
         handleFilterChange,
-        handleCheckChange,
+        handleCheckboxChange,
+        handleResetFilter,
         fetchCompanyData,
         filterCompanyData
-
     }
 }
 export default useCompany;

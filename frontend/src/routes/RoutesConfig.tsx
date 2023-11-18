@@ -5,12 +5,14 @@ import Profile from "../pages/profile/Profile";
 import Register from "../pages/register/Register";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Layout from "../layout/Layout";
+import Companies from "../pages/companies/Companies";
 
 const AuthRoutes = () => (
   <Routes>
     <Route path="/" element={<Navigate to="/dashboard" />} />
-    <Route path="/profile" element={<Layout><Profile /></Layout>} />
     <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+    <Route path="/profile" element={<Layout><Profile /></Layout>} />
+    <Route path="/companies" element={<Layout><Companies /></Layout>} />
     <Route path="*" element={<Navigate to="/" />} />
   </Routes>
 );

@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanyFilterResponse {
     private Long id;
-    private String companyName;
+    private String name;
     private String address;
+    private String city;
     private Double averageRating;
 }

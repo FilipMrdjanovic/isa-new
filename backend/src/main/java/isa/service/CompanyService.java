@@ -44,6 +44,7 @@ public class CompanyService {
                         company.getId(),
                         company.getName(),
                         company.getAddress(),
+                        company.getCity(),
                         company.getAverageRating()
                 );
                 responses.add(centerResponse);

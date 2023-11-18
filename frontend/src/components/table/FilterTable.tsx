@@ -1,4 +1,7 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { MenuItem } from '@mui/material';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { StyledMenu } from '../common/common';
 import { ThemeProvider } from 'styled-components';
 import useCompany from '../../hooks/useCompany';
 import theme from '../../theme/theme';
@@ -6,7 +9,10 @@ import './FilterTable.scss';
 import '../common/input.scss'
 
 const FilterTable = () => {
-    const { tableData, filterData, handleFilterChange, fetchCompanyData, filterCompanyData } = useCompany();
+    const { tableData, filterData, checkbox, handleFilterChange, handleCheckboxChange, handleResetFilter, filterCompanyData } = useCompany();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
 
     const columns = [
         { name: "Name" },
@@ -15,22 +21,30 @@ const FilterTable = () => {
         { name: "Average Rating" }
     ];
 
-    useEffect(() => {
-        fetchCompanyData();
-    }, []);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault;
+        filterCompanyData()
+    }
 
     return (
         <ThemeProvider theme={theme}>
             <div className="table">
                 <div className="container">
                     <div className="tbl-wrapper">
-                        <form role="form" className="tbl-inputs" onSubmit={filterCompanyData}>
+                        <form role="form" className="tbl-inputs">
                             <div className="w300">
                                 <input
                                     className="styledInput"
                                     type="search"
                                     name="searchText"
-                                    required
                                     value={filterData.searchText}
                                     onChange={handleFilterChange}
                                     placeholder="Search"
@@ -74,6 +88,53 @@ const FilterTable = () => {
                                 value={filterData.exactRating}
                                 onChange={handleFilterChange}
                             />
+                            <div className='button-style' onClick={handleClick}>
+                                <span>Filter</span>
+                            </div>
+                            <StyledMenu
+                                MenuListProps={{
+                                    'aria-labelledby': 'demo-customized-button',
+                                }}
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                            >
+                                <MenuItem className="checkboxItem">
+                                    <input
+                                        type="checkbox"
+                                        name="searchText"
+                                        checked={checkbox.searchText}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <label className='ml10'>By Text</label>
+                                </MenuItem>
+
+                                <MenuItem className="checkboxItem">
+                                    <input
+                                        type="checkbox"
+                                        name="minMaxRating"
+                                        checked={checkbox.minMaxRating}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <label className='ml10'>By Min and Max Rating</label>
+                                </MenuItem>
+
+                                <MenuItem className="checkboxItem">
+                                    <input
+                                        type="checkbox"
+                                        name="exactRating"
+                                        checked={checkbox.exactRating}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <label className='ml10'>By Exact Rating</label>
+                                </MenuItem>
+                            </StyledMenu>
+                            <div className='button-style' onClick={handleSubmit}>
+                                Search
+                            </div>
+                            <div className='button-style' onClick={handleResetFilter}>
+                                <RestartAltIcon />
+                            </div>
                         </form>
                         <div className="tbl-header">
                             <table>
@@ -100,7 +161,7 @@ const FilterTable = () => {
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan={columns.length}>404 - No data</td>
+                                            <td style={{ textAlign: "center" }} colSpan={columns.length}>404 - No data</td>
                                         </tr>
                                     )}
                                 </tbody>
