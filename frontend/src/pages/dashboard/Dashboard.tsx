@@ -1,10 +1,10 @@
-import FilterTable from "../../components/table/FilterTable"
 import "./Dashboard.scss"
+import DefaultView from "../../views/DefaultView"
 
 const Dashboard = () => {
     return (
-        <div className="Dashboard">
-            <FilterTable/>
+        <div className='full-height-wrapper'>
+            <DefaultView />
         </div>
     )
 }

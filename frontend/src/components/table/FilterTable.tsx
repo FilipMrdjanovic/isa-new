@@ -7,6 +7,7 @@ import useCompany from '../../hooks/useCompany';
 import theme from '../../theme/theme';
 import './FilterTable.scss';
 import '../common/input.scss'
+import NoDataView from '../../views/NoDataView';
 
 const FilterTable = () => {
     const { tableData, filterData, checkbox, handleFilterChange, handleCheckboxChange, handleResetFilter, filterCompanyData } = useCompany();
@@ -160,8 +161,10 @@ const FilterTable = () => {
                                             </tr>
                                         ))
                                     ) : (
-                                        <tr>
-                                            <td style={{ textAlign: "center" }} colSpan={columns.length}>404 - No data</td>
+                                        <tr style={{ borderBottom: "none", height: "480px" }}>
+                                            <td colSpan={columns.length}>
+                                                <NoDataView/>
+                                            </td>
                                         </tr>
                                     )}
                                 </tbody>

@@ -4,6 +4,7 @@ import { FilterCheckOptions, FilterTableCompanies, FilterTableCompaniesParams } 
 import axiosPrivate from "../api/axios";
 
 const COMPANY_URL = "/company/";
+const SEARCH_URL = COMPANY_URL + "search/"
 
 const useCompany = () => {
     const [tableData, setTableData] = useState<FilterTableCompanies[]>([]);
@@ -82,7 +83,7 @@ const useCompany = () => {
 
     const fetchCompanyData = async () => {
         try {
-            const response = await axiosPrivate.get(COMPANY_URL + "all");
+            const response = await axiosPrivate.get(SEARCH_URL + "all");
             setTableData(response.data);
         } catch (error: any) {
             toast.error("Failed to fetch company data");
@@ -105,9 +106,8 @@ const useCompany = () => {
             }
             params = params.slice(1);
 
-            const response = await axiosPrivate.get(COMPANY_URL + "filter?" + params);
+            const response = await axiosPrivate.get(SEARCH_URL + "filter?" + params);
             setTableData(response.data);
-            console.log(response.data);
         } catch (error: any) {
             toast.error("Failed to filter company data");
         }

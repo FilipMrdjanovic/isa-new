@@ -10,22 +10,23 @@ const Menu = () => {
             listItems: [
                 {
                     id: 1,
-                    title: "Users",
-                    url: "/users",
-                    icon: "user.svg",
-                },
-                {
-                    id: 2,
                     title: "Companies",
                     url: "/companies",
                     icon: "product.svg",
+
                 },
-                {
-                    id: 3,
-                    title: "Orders",
-                    url: "/",
-                    icon: "order.svg",
-                },
+                // {
+                //     id: 2,
+                //     title: "Users",
+                //     url: "/users",
+                //     icon: "user.svg",
+                // },
+                // {
+                //     id: 3,
+                //     title: "Orders",
+                //     url: "/",
+                //     icon: "order.svg",
+                // },
             ],
         },
     ]

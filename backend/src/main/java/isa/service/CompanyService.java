@@ -29,7 +29,7 @@ public class CompanyService {
         // Call the appropriate method based on the provided parameters
         List<Company> companies;
         if (exactRating != null) {
-            companies = companyRepository.findByAverageRating(exactRating);
+            companies = companyRepository.findByFiltersTextAndExactRating(searchText, exactRating);
         } else {
             companies = companyRepository.findByFilters(searchText, minRating, maxRating);
         }
@@ -37,7 +37,7 @@ public class CompanyService {
 
         List<CompanyFilterResponse> responses = new ArrayList<>();
         if (companies.isEmpty()) {
-            return ResponseEntity.badRequest().body("No centers found matching the filters.");
+            return ResponseEntity.ok(new ArrayList<>());
         } else {
             for (Company company : companies) {
                 CompanyFilterResponse centerResponse = new CompanyFilterResponse(

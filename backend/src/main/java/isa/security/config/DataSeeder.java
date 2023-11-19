@@ -53,26 +53,27 @@ public class DataSeeder implements CommandLineRunner {
     private void seedCompanies() {
         if (companyRepository.count() == 0) {
             List<Company> defaultCompanies = Arrays.asList(
-                    createDefaultCompanies("MediGear Solutions","Bulevar Oslobođenja 5", "Novi Sad",6.5),
-                    createDefaultCompanies("VitaTech Innovations","Futoška 12", "Novi Sad",8.2),
-                    createDefaultCompanies("MediServe Dynamics","Maksima Gorkog 12", "Novi Sad",4.7),
-                    createDefaultCompanies("MedEquip Pro","Bulevar cara Lazara 9", "Novi Sad",9.1),
-                    createDefaultCompanies("HealthTech Solutions","Braće Ribnikar 5", "Novi Sad",2.4),
-                    createDefaultCompanies("Apex Medical Supplies","Bulevar oslobođenja 66", "Novi Sad",7.8),
-                    createDefaultCompanies("MedCore Innovations","Jovana Subotića 2", "Novi Sad",5.3),
-                    createDefaultCompanies("MedixTech Enterprises","Petra Drapšina 7", "Novi Sad",3.6),
-                    createDefaultCompanies("EquipMed Solutions","Fruškogorska 4", "Novi Sad",6.9),
-                    createDefaultCompanies("MedSource Innovate","Somborska 13", "Novi Sad",8.4),
-                    createDefaultCompanies("MedTech Hub","Cara Dušana 22", "Novi Sad",4.2),
-                    createDefaultCompanies("MedVantage Pro","Vojvode Stepe 18", "Novi Sad",9.7),
-                    createDefaultCompanies("EquipCare Solutions","Zmaj Jovina 10", "Novi Sad",7.1),
-                    createDefaultCompanies("LifeMed Devices","Bulevar despota Stefana 14", "Novi Sad",5.8),
-                    createDefaultCompanies("MedTech Prodigy","Nikole Pašića 3", "Novi Sad",3.9),
-                    createDefaultCompanies("WellCare Innovations","Cara Lazara 39", "Novi Sad",8.0),
-                    createDefaultCompanies("AccuMed Tech","Kralja Petra I 8", "Novi Sad",6.6),
-                    createDefaultCompanies("MedInnoVest Solutions","Bulevar oslobođenja 52", "Novi Sad",2.7),
-                    createDefaultCompanies("CureAll Enterprises","Njegoševa 7", "Novi Sad",9.5),
-                    createDefaultCompanies("MedEase Dynamics","Ilije Ognjanovića 17", "Novi Sad",7.3)
+                    createDefaultCompanies("MediGear Solutions","Bulevar Oslobođenja 5", "Belgrade", 7.0),
+                    createDefaultCompanies("VitaTech Innovations","Futoška 12", "Novi Sad", 8.0),
+                    createDefaultCompanies("MediServe Dynamics","Maksima Gorkog 12", "Niš", 5.0),
+                    createDefaultCompanies("MedEquip Pro","Bulevar cara Lazara 9", "Kragujevac", 9.0),
+                    createDefaultCompanies("HealthTech Solutions","Braće Ribnikar 5", "Subotica", 2.0),
+                    createDefaultCompanies("Apex Medical Supplies","Bulevar oslobođenja 66", "Čačak", 8.0),
+                    createDefaultCompanies("MedCore Innovations","Jovana Subotića 2", "Belgrade", 5.0),
+                    createDefaultCompanies("MedixTech Enterprises","Petra Drapšina 7", "Kragujevac", 4.0),
+                    createDefaultCompanies("EquipMed Solutions","Fruškogorska 4", "Novi Sad", 7.0),
+                    createDefaultCompanies("MedSource Innovate","Somborska 13", "Niš", 8.0),
+                    createDefaultCompanies("MedTech Hub","Cara Dušana 22", "Subotica", 4.0),
+                    createDefaultCompanies("MedVantage Pro","Vojvode Stepe 18", "Belgrade", 10.0),
+                    createDefaultCompanies("EquipCare Solutions","Zmaj Jovina 10", "Novi Sad", 7.0),
+                    createDefaultCompanies("LifeMed Devices","Bulevar despota Stefana 14", "Niš", 6.0),
+                    createDefaultCompanies("MedTech Prodigy","Nikole Pašića 3", "Subotica", 4.0),
+                    createDefaultCompanies("WellCare Innovations","Cara Lazara 39", "Belgrade", 8.0),
+                    createDefaultCompanies("AccuMed Tech","Kralja Petra I 8", "Novi Sad", 7.0),
+                    createDefaultCompanies("MedInnoVest Solutions","Bulevar oslobođenja 52", "Niš", 3.0),
+                    createDefaultCompanies("CureAll Enterprises","Njegoševa 7", "Subotica", 10.0),
+                    createDefaultCompanies("MedEase Dynamics","Ilije Ognjanovića 17", "Belgrade", 7.0)
+
 
             );
             companyRepository.saveAll(defaultCompanies);

@@ -1,0 +1,17 @@
+@import '../../styles/variables.scss';
+
+.unauth {
+  display: flex;
+  flex-direction: row;
+  margin-left: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.unauth div {
+  padding: 10px 20px;
+  color: white;
+  transition: 0.2s all;
+}
+.unauth div:hover {
+  color: $main-bg-soft;
+}

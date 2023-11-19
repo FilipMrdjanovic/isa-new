@@ -15,11 +15,11 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
-    @GetMapping("/all")
+    @GetMapping("/search/all")
     public ResponseEntity<?> getAll(){
         return companyService.getAll();
     }
-    @GetMapping("/filter")
+    @GetMapping("/search/filter")
     public ResponseEntity<?> filterCompanies(
             @RequestParam(required = false) String searchText,
             @RequestParam(required = false) Double minRating,

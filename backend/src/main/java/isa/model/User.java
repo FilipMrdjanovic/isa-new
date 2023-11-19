@@ -1,5 +1,6 @@
 package isa.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import isa.payload.request.UpdateForm;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class User implements UserDetails {
     @GeneratedValue
     private Long id;
     private String email;
+    @JsonIgnore
     private String password;
     private String firstname;
     private String lastname;
