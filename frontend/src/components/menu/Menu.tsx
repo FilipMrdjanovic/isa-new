@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../../api/auth/AuthContext";
 import "./Menu.scss";
 
 const Menu = () => {
 
-    const menu = [
+    const {auth} = useAuth()
+
+    const basicMenu = [
         {
             id: 1,
             title: "",
@@ -15,22 +18,56 @@ const Menu = () => {
                     icon: "product.svg",
 
                 },
-                // {
-                //     id: 2,
-                //     title: "Users",
-                //     url: "/users",
-                //     icon: "user.svg",
-                // },
-                // {
-                //     id: 3,
-                //     title: "Orders",
-                //     url: "/",
-                //     icon: "order.svg",
-                // },
+                {
+                    id: 2,
+                    title: "User",
+                    url: "/user",
+                    icon: "user.svg",
+                },
             ],
         },
     ]
+    const companyMenu = [
+        {
+            id: 1,
+            title: "",
+            listItems: [
+                {
+                    id: 1,
+                    title: "User",
+                    url: "/user",
+                    icon: "user.svg",
+                },
+            ],
+        },
+    ]
+    const systemMenu = [
+        {
+            id: 1,
+            title: "",
+            listItems: [
+                {
+                    id: 1,
+                    title: "Companies",
+                    url: "/companies",
+                    icon: "product.svg",
 
+                },
+                {
+                    id: 2,
+                    title: "User",
+                    url: "/user",
+                    icon: "user.svg",
+                },
+            ],
+        },
+    ]
+    let menu = basicMenu;
+    if (auth.role === "COMPANY_ADMIN") {
+        menu = companyMenu;
+    } else if (auth.role === "SYSTEM_ADMIN") {
+        menu = systemMenu;
+    }
 
     return (
         <div className="menu">

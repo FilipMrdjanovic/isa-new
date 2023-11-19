@@ -33,7 +33,10 @@ public class DataSeeder implements CommandLineRunner {
     private void seedUsers() {
         if (userRepository.count() == 0) {
             List<User> defaultUsers = Arrays.asList(
-                    createDefaultUser("xxmrkixx@gmail.com", Role.USER, "John", "Doe", "New York", "USA", "1234567890", "Engineer", "Company A", 0, 0)
+                    createDefaultUser("user@user.com", Role.USER, "John", "Doe", "Los Angeles", "USA", "9876543210", "Engineer", "Company B", 1, 1),
+            createDefaultUser("company@company.com", Role.COMPANY_ADMIN, "Bob", "Smith", "Paris", "USA", "8765432109", "Developer", "Company C", 2, 2),
+            createDefaultUser("admin@admin.com", Role.SYSTEM_ADMIN, "Eva", "Brown", "Tokyo", "USA", "7654321098", "Manager", "Company D", 3, 3)
+
             );
             userRepository.saveAll(defaultUsers);
         }

@@ -47,10 +47,10 @@ export interface FilterTableCompaniesParams {
 }
 
 export interface FilterData {
-    searchText?: string;
-    minRating?: number;
-    maxRating?: number;
-    exactRating?: number;
+  searchText?: string;
+  minRating?: number;
+  maxRating?: number;
+  exactRating?: number;
 }
 
 export type FilterCheckOptions = {
@@ -58,3 +58,7 @@ export type FilterCheckOptions = {
   minMaxRating: boolean;
   exactRating: boolean;
 };
+
+export interface AuthRoutesProps {
+  role: string | undefined;
+}

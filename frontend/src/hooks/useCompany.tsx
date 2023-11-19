@@ -78,6 +78,17 @@ const useCompany = () => {
 
     const handleResetFilter = () => {
         setFilter(false)
+        setFilterData({
+            searchText: "",
+            minRating: 1,
+            maxRating: 10,
+            exactRating: 1,
+        })
+        setCheckbox({
+            searchText: false,
+            minMaxRating: false,
+            exactRating: false,
+        })
         fetchCompanyData()
     }
 

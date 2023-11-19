@@ -58,7 +58,7 @@ const FilterTable = () => {
                                     type="range"
                                     name="minRating"
                                     min="1"
-                                    max="10"
+                                    max={filterData.maxRating}
                                     value={filterData.minRating}
                                     onChange={handleFilterChange} />
                             </div>
@@ -71,7 +71,7 @@ const FilterTable = () => {
                                     className="custom-slider"
                                     type="range"
                                     name="maxRating"
-                                    min="1"
+                                    min={filterData.minRating}
                                     max="10"
                                     value={filterData.maxRating}
                                     onChange={handleFilterChange} />
