@@ -1,4 +1,4 @@
-# ISA
+# ISA - Team 7 | Student 2
 
 This repository contains the backend and frontend code for provided application. The backend is built using Java with Spring Boot, while the frontend is built using React with TypeScript. This README provides an overview of the project structure, dependencies, and how to set up and run both the backend and frontend components.
 
