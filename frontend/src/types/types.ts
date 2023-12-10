@@ -1,8 +1,23 @@
+export interface Data {
+  message: string;
+  status: number;
+  token?: string;
+  newToken?: string;
+  user?: {};
+  userRank?: string;
+  companies?: {};
+}
+
 export interface AuthData {
-  id?: string;
-  accessToken?: string;
-  refreshToken?: string;
-  role?: string;
+  token: string;
+  id: number;
+  role: string;
+}
+
+export interface RefreshToken {
+  newToken: string;
+  status: number;
+  message: string;
 }
 
 export interface LoginFormData {

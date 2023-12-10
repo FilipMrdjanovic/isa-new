@@ -44,48 +44,42 @@ const useUser = () => {
     };
 
     const fetchUserData = async () => {
-        try {
-            const response = await axiosPrivate.get(USER_URL + "me");
-            const userData = response.data;
-            setUserData(userData);
-        } catch (error: any) {
-                error.response && error.response.data
-                    ? error.response.data.message
-                    : "Error";
-            toast.error("Failed to fetch user data");
-        }
+        await axiosPrivate.get(USER_URL + "me")
+            .then(response => {
+                setUserData(response.data.user);
+            })
+            .catch(error => {
+                toast.error(error.data.message)
+            })
+
     };
 
     const getUserRank = async () => {
-        try {
-            const response = await axiosPrivate.get(USER_URL + "rank");
-            setUserRank(response.data);
-        } catch (error: any) {
-                error.response && error.response.data
-                    ? error.response.data.message
-                    : "Error";
-            toast.error("There is a problem with user's rank.")
-        }
+        await axiosPrivate.get(USER_URL + "rank")
+            .then(response => {
+                setUserRank(response.data);
+            })
+            .catch(error => {
+                toast.error(error.data.message)
+            })
     };
 
     const updateProfile = async () => {
-        try {
-            await axiosPrivate.put(USER_URL + `update`, {
-                firstname: userData.firstname,
-                lastname: userData.lastname,
-                city: userData.city,
-                country: userData.country,
-                phone: userData.phone,
-                occupation: userData.occupation,
-                organization: userData.organization
-            });
-            toast.success("Profile updated successfully!");
-        } catch (error: any) {
-                error.response && error.response.data
-                    ? error.response.data.message
-                    : "Error";
-            toast.error("Failed to update profile.");
-        }
+        axiosPrivate.put(USER_URL + `update`, {
+            firstname: userData.firstname,
+            lastname: userData.lastname,
+            city: userData.city,
+            country: userData.country,
+            phone: userData.phone,
+            occupation: userData.occupation,
+            organization: userData.organization
+        })
+            .then(() => {
+                toast.success("Profile updated successfully!");
+            })
+            .catch(error =>
+                toast.error(error.data.message))
+        toast.success("Profile updated successfully!");
     };
 
     const updatePassword = async () => {
@@ -99,21 +93,20 @@ const useUser = () => {
             return;
         }
 
-        try {
-            await axiosPrivate.put(
-                USER_URL + `update/password`,
-                { 
-                    currentPassword: userPassword.currentPassword, 
-                    newPassword: userPassword.newPassword 
-                },
-            );
-            toast.success("Password updated successfully!");
-        } catch (error: any) {
-                error.response && error.response.data
-                    ? error.response.data.message
-                    : "Error";
-            toast.error("Failed to update password");
-        }
+        await axiosPrivate.put(
+            USER_URL + `update/password`,
+            {
+                currentPassword: userPassword.currentPassword,
+                newPassword: userPassword.newPassword
+            },
+        )
+            .then(() => {
+                toast.success("Password updated successfully!");
+            })
+            .catch(error =>
+                toast.error(error.response.data)
+            )
+
     };
 
     useEffect(() => {

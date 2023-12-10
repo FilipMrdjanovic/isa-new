@@ -10,7 +10,7 @@ import "./navbar.scss";
 import axiosInstance from "../../api/axios";
 
 const Navbar = () => {
-    const auth = useAuth()
+    const {logout} = useAuth()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -30,13 +30,13 @@ const Navbar = () => {
 
     const handleLogout = () => {
         handleClose(); // Close the menu after logout
-        auth.logout()
+        logout()
     };
 
     useEffect(() => {
         const getName = () => {
             axiosInstance.get("/user/me").then((response: any) => {
-                setName(response.data.firstname);
+                setName(response.data.user.firstname);
             });
         };
         getName();

@@ -10,7 +10,9 @@ import isa.payload.request.RegisterRequest;
 import isa.payload.response.AuthenticationResponse;
 import isa.repository.TokenRepository;
 import isa.repository.UserRepository;
+import isa.security.handler.GlobalExceptionHandler;
 import isa.service.mailing.EmailSender;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -35,11 +38,17 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EmailSender emailSender;
+    private final GlobalExceptionHandler globalExceptionHandler;
 
     public ResponseEntity<?> register(RegisterRequest request) {
         try {
             if (repository.existsByEmail(request.getEmail())) {
-                return ResponseEntity.badRequest().body("Email is already registered.");
+                return ResponseEntity.ok(
+                        Map.of(
+                                "status", 400,
+                                "message", "Email is already registered"
+                        )
+                );
             }
 
             Role role = switch (request.getRole()) {
@@ -75,10 +84,20 @@ public class AuthenticationService {
 
             sendVerificationEmail(savedUser, verificationLink);
 
-            return ResponseEntity.ok("Registration successful. To sign in, activate your account using the link sent to your email.");
+            return ResponseEntity.ok(
+                    Map.of(
+                            "status", 200,
+                            "message", "Registration successful. To sign in, activate your account using the link sent to your email"
+                    )
+            );
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred during registration: " + e.getMessage());
+
+            return ResponseEntity.ok(
+                    Map.of(
+                            "status", 500,
+                            "message", e.getMessage()
+                    )
+            );
         }
     }
 
@@ -100,39 +119,50 @@ public class AuthenticationService {
             saveUserToken(user, jwtToken);
 
             return ResponseEntity.ok(
-                    AuthenticationResponse.builder()
-                            .id(user.getId())  // Include the user's ID in the response
-                            .accessToken(jwtToken)
-                            .refreshToken(refreshToken)
-                            .role(user.getRole().toString())  // Include the user's role in the response
-                            .build()
+                    Map.of(
+                            "status", 200,
+                            "message", "Login successful",
+                            "token", jwtToken
+                    )
             );
         } catch (AuthenticationException e) {
             var user = repository.findByEmail(request.getEmail());
-            if (user.isPresent()){
+            if (user.isPresent()) {
                 var _user = user.get();
                 if (!_user.getEnabled()) {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                            .body("Account not verified. Please verify your email first.");
+                    return ResponseEntity.ok(
+                            Map.of(
+                                    "status", 400, "message",
+                                    "Account not verified. Please verify your email first"
+                            )
+                    );
                 }
             }
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid credentials. Please check your email and password.");
+            return ResponseEntity.ok(
+                    Map.of(
+                            "status", 400,
+                            "message", "Invalid credentials"
+                    )
+            );
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred during authentication: " + e.getMessage());
+            return ResponseEntity.ok(
+                    Map.of(
+                            "status", 500,
+                            "message", e.getMessage()
+                    )
+            );
         }
     }
 
     private String generateVerificationCode() {
-         return UUID.randomUUID().toString().substring(0, 6);
+        return UUID.randomUUID().toString().substring(0, 6);
     }
 
     private void sendVerificationEmail(User user, String verificationCode) {
         emailSender.send(user.getEmail(), buildEmail(user.getFirstname(), verificationCode));
     }
 
-    public ResponseEntity<?> verify(String email, String code){
+    public ResponseEntity<?> verify(String email, String code) {
         var user = repository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -181,11 +211,20 @@ public class AuthenticationService {
             User user = getUserFromExpiredToken(expiredToken);
             String newAccessToken = generateAndSaveNewAccessToken(user);
 
-            return ResponseEntity.ok(newAccessToken);
-        } catch (ExpiredJwtException e) {
-            return ResponseEntity.badRequest().body(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.ok(
+                    Map.of(
+                            "status", 200,
+                            "message", "Token refreshed successfully",
+                            "newToken", newAccessToken
+                    )
+            );
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.ok(
+                    Map.of(
+                            "status", 500,
+                            "message", e.getMessage()
+                    )
+            );
         }
     }
 

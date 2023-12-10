@@ -95,7 +95,7 @@ const useCompany = () => {
     const fetchCompanyData = async () => {
         try {
             const response = await axiosPrivate.get(SEARCH_URL + "all");
-            setTableData(response.data);
+            setTableData(response.data.companies);
         } catch (error: any) {
             toast.error("Failed to fetch company data");
         }
@@ -118,7 +118,7 @@ const useCompany = () => {
             params = params.slice(1);
 
             const response = await axiosPrivate.get(SEARCH_URL + "filter?" + params);
-            setTableData(response.data);
+            setTableData(response.data.companies);
         } catch (error: any) {
             toast.error("Failed to filter company data");
         }

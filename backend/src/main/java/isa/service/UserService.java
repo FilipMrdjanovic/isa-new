@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -59,9 +60,6 @@ public class UserService {
     public ResponseEntity<?> getUserRank(Long userId) {
         try {
             User user = getUserById(userId);
-            if (user == null) {
-                throw new IllegalArgumentException("User not found.");
-            }
 
             int points = user.getLoyaltyPoints();
             List<Rank> ranks = rankRepository.findAllByThresholdGreaterThanEqual(0);
@@ -69,11 +67,18 @@ public class UserService {
             return ranks.stream()
                     .filter(rank -> points <= rank.getThreshold())
                     .findFirst()
-                    .map(ResponseEntity::ok)
-                    .orElseGet(() -> (ResponseEntity<Rank>) ResponseEntity.ok());
+                    .map(rank -> ResponseEntity.ok(
+                            Map.of("status", 200, "message", "User rank retrieved successfully", "userRank", rank))
+                    )
+                    .orElseGet(() -> ResponseEntity.ok(
+                            Map.of("status", 404, "message", "User rank not found"))
+                    );
+
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Transcendent rank not found.");
+            return ResponseEntity.ok(
+                    Map.of("status", 404, "message", "Rank not found")
+            );
         }
     }
 

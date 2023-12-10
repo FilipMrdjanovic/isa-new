@@ -23,6 +23,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue
+    @JsonIgnore
     private Long id;
     private String email;
     @JsonIgnore
@@ -38,19 +39,23 @@ public class User implements UserDetails {
     private int penaltyPoints;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Role role;
+    @JsonIgnore
 
     private Boolean locked = false;
+    @JsonIgnore
     private Boolean enabled = false;
 
+    @JsonIgnore
     private String verificationCode;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    // Inside your User class
     public void updateForm(UpdateForm updateForm) {
         this.firstname = updateForm.getFirstname();
         this.lastname = updateForm.getLastname();
@@ -63,7 +68,7 @@ public class User implements UserDetails {
         this.organization = updateForm.getOrganization();
     }
 
-
+    @JsonIgnore
     @Override
     public String getUsername(){
         return email;
@@ -72,18 +77,22 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return !locked;
     }
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return enabled;

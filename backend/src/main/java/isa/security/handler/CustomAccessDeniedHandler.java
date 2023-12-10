@@ -6,6 +6,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -13,6 +15,11 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json");
-        response.getWriter().write("Access Denied");
+
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("status", HttpServletResponse.SC_FORBIDDEN);
+        errorResponse.put("message", "Insufficient permissions for this action");
+
+        response.getWriter().write(errorResponse.toString());
     }
 }

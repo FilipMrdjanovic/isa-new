@@ -15,6 +15,8 @@ import CompanyUser from "../pages/user/company/CompanyUser";
 import CompanyDashboard from "../pages/dashboard/company/CompanyDashboard";
 import SystemDashboard from "../pages/dashboard/system/SystemDashboard";
 import SystemUser from "../pages/user/system/SystemUser";
+import ServerNotRunningView from "../views/ServerNotRunningView";
+import Company from "../pages/company/Company";
 
 const AuthRoutes = (props: AuthRoutesProps) => {
     const { role } = props;
@@ -26,6 +28,7 @@ const AuthRoutes = (props: AuthRoutesProps) => {
                     <Route path="/" element={<Navigate to="/dashboard" />} />
                     <Route path="/dashboard" element={<Layout><BasicDashboard /></Layout>} />
                     <Route path="/companies" element={<Layout><Companies /></Layout>} />
+                    <Route path="/company/*" element={<Layout><Company /></Layout>} />
                     <Route path="/user" element={<Layout><BasicUser /></Layout>} />
                     <Route path="/profile" element={<Layout><Profile /></Layout>} />
                     <Route path="/unauthorized" element={<Layout><UnauthorizedView /></Layout>} />
@@ -67,6 +70,7 @@ const UnauthRoutes = () => (
         <Route path="/login" element={<UnauthLayout><Login /></UnauthLayout>} />
         <Route path="/register" element={<UnauthLayout><Register /></UnauthLayout>} />
         <Route path="/unauthorized" element={<UnauthLayout><UnauthorizedView /></UnauthLayout>} />
+        <Route path="/service-unavailable" element={<UnauthLayout><ServerNotRunningView /></UnauthLayout>} />
         <Route path="*" element={<Navigate to="/" />} />
     </Routes>
 );

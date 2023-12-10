@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +24,8 @@ public class CompanyService {
         // Validate input parameters and return appropriate message if none provided
         if (StringUtils.isEmpty(searchText) && minRating == null
                 && maxRating == null && exactRating == null) {
-            return ResponseEntity.badRequest().body("Please provide at least one filter parameter.");
+            return ResponseEntity.ok(
+                    Map.of("status", 400, "message", "Please provide at least one filter parameter"));
         }
 
         // Call the appropriate method based on the provided parameters
@@ -35,9 +37,11 @@ public class CompanyService {
         }
 
 
-        List<CompanyFilterResponse> responses = new ArrayList<>();
+        List<CompanyFilterResponse> companies_response = new ArrayList<>();
         if (companies.isEmpty()) {
-            return ResponseEntity.ok(new ArrayList<>());
+            return ResponseEntity.ok(
+                    Map.of("status", 404, "message", "No companies found")
+            );
         } else {
             for (Company company : companies) {
                 CompanyFilterResponse centerResponse = new CompanyFilterResponse(
@@ -47,17 +51,14 @@ public class CompanyService {
                         company.getCity(),
                         company.getAverageRating()
                 );
-                responses.add(centerResponse);
+                companies_response.add(centerResponse);
             }
-            return ResponseEntity.ok(responses);
+            return ResponseEntity.ok(companies_response);
         }
     }
 
-    public ResponseEntity<?> getAll() {
+    public List<Company> getAll() {
         List<Company> companies = companyRepository.findAll();
-        if (!companies.isEmpty()){
-            return ResponseEntity.ok(companies);
-        }
-        return  ResponseEntity.badRequest().body(HttpStatus.NOT_FOUND);
+        return companies;
     }
 }

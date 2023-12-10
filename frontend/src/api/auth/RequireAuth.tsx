@@ -5,6 +5,7 @@ import Layout from '../../layout/Layout'
 export const RequireAuth = (children: any) => {
     const location = useLocation()
     const auth = useAuth()
+    
     if (!auth.isAuthenticated) {
         return <Navigate to='/' state={{ path: location.pathname }} />
     }
