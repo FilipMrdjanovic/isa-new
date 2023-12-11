@@ -5,7 +5,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { StyledMenu } from '../common/common';
 import { useState } from 'react';
 
-const Filters = ({
+const CompaniesFilters = ({
     filterData,
     checkbox,
     handleFilterChange,
@@ -123,4 +123,4 @@ const Filters = ({
     );
 };
 
-export default Filters;
+export default CompaniesFilters;

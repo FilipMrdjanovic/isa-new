@@ -77,3 +77,33 @@ export type FilterCheckOptions = {
 export interface AuthRoutesProps {
   role: string | undefined;
 }
+
+export type EquipmentResponse = {
+  message: string;
+  status: number;
+  equipment: Equipment;
+};
+
+export type Equipment = {
+  id: number;
+  name: string;
+  description: string;
+};
+
+export type EquipmentsResponse = {
+  message: string;
+  status: number;
+  equipments: Equipment[];
+};
+
+export type EquipmentSetResponse = {
+  message: string;
+  status: number;
+  equipmentSets: EquipmentSet[];
+};
+
+export type EquipmentSet = {
+  id: number;
+  quantity: number;
+  equipment: Equipment;
+};

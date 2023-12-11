@@ -1,19 +1,16 @@
 package isa.security.config;
 
-import isa.model.Company;
-import isa.model.Rank;
-import isa.model.Role;
-import isa.model.User;
-import isa.repository.CompanyRepository;
-import isa.repository.RankRepository;
-import isa.repository.UserRepository;
+import isa.model.*;
+import isa.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Component
 @AllArgsConstructor
@@ -21,6 +18,8 @@ public class DataSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RankRepository rankRepository;
     private final CompanyRepository companyRepository;
+    private final EquipmentRepository equipmentRepository;
+    private final EquipmentSetRepository equipmentSetRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -28,6 +27,8 @@ public class DataSeeder implements CommandLineRunner {
         seedUsers();
         seedRanks();
         seedCompanies();
+        seedEquipment();
+        seedEquipmentSets();
     }
 
     private void seedUsers() {
@@ -108,5 +109,45 @@ public class DataSeeder implements CommandLineRunner {
     private Company createDefaultCompanies(String name, String address, String city,Double averageRating){
         Company company = new Company(name, address, city, averageRating);
         return company;
+    }
+
+    private void seedEquipment() {
+        if (equipmentRepository.count() == 0) {
+            List<Equipment> equipmentList = Arrays.asList(
+                    new Equipment("Surgical Tools", "Basic tools for surgery"),
+                    new Equipment("MRI Machine", "Magnetic Resonance Imaging"),
+                    new Equipment("Ultrasound Scanner", "Diagnostic imaging"),
+                    new Equipment("X-Ray Machine", "Radiographic examination"),
+                    new Equipment("Anesthesia Machine", "For administering anesthesia"),
+                    new Equipment("Defibrillator", "For life-threatening cardiac conditions"),
+                    new Equipment("ECG Machine", "Measures electrical activity of the heart"),
+                    new Equipment("Ventilator", "Assists with breathing"),
+                    new Equipment("Infusion Pump", "Delivers fluids/medication into a patient's body"),
+                    new Equipment("Blood Analyzer", "Analyzes blood samples for diagnosis")
+                    // Add more diverse Equipment data here
+            );
+            equipmentRepository.saveAll(equipmentList);
+        }
+    }
+
+    private void seedEquipmentSets() {
+        if (equipmentSetRepository.count() == 0) {
+            List<Equipment> allEquipment = equipmentRepository.findAll();
+            List<Company> allCompanies = companyRepository.findAll();
+
+            Random random = new Random();
+
+            for (Company company : allCompanies) {
+                List<EquipmentSet> equipmentSets = new ArrayList<>();
+                for (int i = 0; i < 5; i++) {
+                    Equipment randomEquipment = allEquipment.get(random.nextInt(allEquipment.size()));
+                    int quantity = random.nextInt(10) + 1; // Random quantity from 1 to 10
+
+                    EquipmentSet equipmentSet = new EquipmentSet(null, quantity, randomEquipment, company);
+                    equipmentSets.add(equipmentSet);
+                }
+                equipmentSetRepository.saveAll(equipmentSets);
+            }
+        }
     }
 }

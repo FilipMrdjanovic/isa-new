@@ -13,7 +13,7 @@ const Welcome = () => {
               WELCOME TO
               </Typography>
             <Typography component="h1" variant="h5">
-              <img src="logo.svg" alt="" style={{ marginRight: "10px", verticalAlign: "sub"}} />
+              <img src="/logo.svg" alt="" style={{ marginRight: "10px", verticalAlign: "sub"}} />
               EQUICENTRE
             </Typography>
             <Box sx={{marginTop: "10px", width: "300px", textDecoration: "underline"}} fontFamily="sans-serif">

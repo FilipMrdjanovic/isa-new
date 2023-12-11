@@ -20,7 +20,7 @@ public class EquipmentSet {
     private int quantity;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 

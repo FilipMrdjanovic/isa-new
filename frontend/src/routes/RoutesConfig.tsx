@@ -28,7 +28,7 @@ const AuthRoutes = (props: AuthRoutesProps) => {
                     <Route path="/" element={<Navigate to="/dashboard" />} />
                     <Route path="/dashboard" element={<Layout><BasicDashboard /></Layout>} />
                     <Route path="/companies" element={<Layout><Companies /></Layout>} />
-                    <Route path="/company/*" element={<Layout><Company /></Layout>} />
+                    <Route path={`/company/:id`} element={<Layout><Company /></Layout>} />
                     <Route path="/user" element={<Layout><BasicUser /></Layout>} />
                     <Route path="/profile" element={<Layout><Profile /></Layout>} />
                     <Route path="/unauthorized" element={<Layout><UnauthorizedView /></Layout>} />

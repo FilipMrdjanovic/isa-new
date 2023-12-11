@@ -8,7 +8,7 @@ const UnauthNavbar = () => {
         <div className="navbar">
             <NavLink to="/">
                 <div className="logo">
-                    <img src="logo.svg" alt="" />
+                    <img src="/logo.svg" alt="" />
                     <span>EQUICENTRE</span>
                 </div>
             </NavLink>

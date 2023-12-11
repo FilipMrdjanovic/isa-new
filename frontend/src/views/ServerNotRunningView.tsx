@@ -2,7 +2,7 @@ const ServerNotRunningView = () => {
     return (
         <div className='flex-center text-center white-element'>
             <a href="https://www.freepik.com">
-                <img src='images/no-connection.png' width="300px" height="300px" alt='' />
+                <img src='/images/no-connection.png' width="300px" height="300px" alt='' />
                 <h2 className='text-main-color'>
                     SERVICE IS CURRENTLY NOT AVAILABLE
                     <br />
