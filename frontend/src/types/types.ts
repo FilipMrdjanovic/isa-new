@@ -61,17 +61,19 @@ export interface FilterTableCompaniesParams {
   exactRating: number;
 }
 
-export interface FilterData {
-  searchText?: string;
-  minRating?: number;
-  maxRating?: number;
-  exactRating?: number;
+export interface FilterTableEquipmentSetsParams {
+  searchText: string;
+  minQuantity: number;
+  maxQuantity: number;
+  exactQuantity: number;
 }
 
 export type FilterCheckOptions = {
-  searchText: boolean;
-  minMaxRating: boolean;
-  exactRating: boolean;
+  searchText?: boolean;
+  minMaxRating?: boolean;
+  exactRating?: boolean;
+  minMaxQuantity?: boolean
+  exactQuantity?: boolean
 };
 
 export interface AuthRoutesProps {

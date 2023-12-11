@@ -71,4 +71,26 @@ public class EquipmentController {
             );
         }
     }
+    @GetMapping("/sets/{companyId}/search/filter")
+    public ResponseEntity<?> filterEquipmentSetsWithCompanyId(
+            @PathVariable Long companyId,
+            @RequestParam(required = false) String searchText,
+            @RequestParam(required = false) Integer minQuantity,
+            @RequestParam(required = false) Integer maxQuantity,
+            @RequestParam(required = false) Integer exactQuantity) {
+
+        ResponseEntity<?> response = equipmentService.filterEquipment(companyId, searchText, minQuantity, maxQuantity, exactQuantity);
+
+        if (response.getStatusCodeValue() == 200) {
+            return ResponseEntity.ok(
+                    Map.of(
+                            "status", 200,
+                            "message", "Equipment sets filtered successfully",
+                            "equipmentSets", response.getBody() // Modify this based on the actual response
+                    )
+            );
+        } else {
+            return response;
+        }
+    }
 }

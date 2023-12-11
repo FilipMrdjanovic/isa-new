@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { Equipment, EquipmentSet, EquipmentsResponse, EquipmentSetResponse, EquipmentResponse } from "../types/types";
 import axiosPrivate from "../api/axios";
+import { Equipment, EquipmentsResponse, EquipmentResponse } from "../types/types";
 
 const EQUIPMENT_URL = "/equipment/";
-const SETS_URL = EQUIPMENT_URL + "sets/";
 
 const useEquipment = () => {
     const [equipmentData, setEquipmentData] = useState<Equipment[]>([]);
-    const [equipmentSets, setEquipmentSets] = useState<EquipmentSet[]>([]);
-
     const fetchAllEquipments = async () => {
         try {
             const response = await axiosPrivate.get<EquipmentsResponse>(EQUIPMENT_URL + "all");
@@ -28,26 +25,10 @@ const useEquipment = () => {
             return null;
         }
     };
-
-    const fetchEquipmentSetsByCompanyId = async (companyId: number) => {
-        try {
-            const response = await axiosPrivate.get<EquipmentSetResponse>(`${SETS_URL}${companyId}`);
-            setEquipmentSets(response.data.equipmentSets);
-        } catch (error: any) {
-            toast.error("Failed to fetch equipment sets by company ID");
-        }
-    };
-
-    useEffect(() => {
-        fetchAllEquipments();
-    }, []);
-
     return {
         equipmentData,
-        equipmentSets,
-        fetchEquipmentById,
-        fetchEquipmentSetsByCompanyId
+        fetchAllEquipments,
+        fetchEquipmentById
     };
-};
-
+}
 export default useEquipment;

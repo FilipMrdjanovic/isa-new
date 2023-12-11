@@ -2,7 +2,7 @@ import { IconButton, MenuItem } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import { StyledMenu } from '../common/common';
+import { StyledMenu } from '../../common/common';
 import { useState } from 'react';
 
 const CompaniesFilters = ({

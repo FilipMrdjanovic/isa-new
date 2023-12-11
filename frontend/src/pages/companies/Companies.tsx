@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useCompany from '../../hooks/useCompany';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../theme/theme';
-import CompaniesFilters from '../../components/table/CompaniesFilters';
+import CompaniesFilters from '../../components/table/tableFilters/CompaniesFilters';
 import TableComponent from '../../components/table/TableComponent';
 import "../../components/table/Table.scss"
 import '../../components/common/input.scss';
@@ -14,7 +14,6 @@ const columns = [
     { name: "City", key: "city" },
     { name: "Average Rating", key: "averageRating" },
 ];
-
 
 const Companies = () => {
     const { tableData, filterData, checkbox, handleFilterChange, handleCheckboxChange, handleResetFilter, filterCompanyData } = useCompany();

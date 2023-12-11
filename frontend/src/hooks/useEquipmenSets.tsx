@@ -1,21 +1,21 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { FilterTableCompanies, FilterTableCompaniesParams } from "../types/types";
+import { EquipmentSet, EquipmentSetResponse, FilterTableEquipmentSetsParams } from "../types/types";
 import axiosPrivate from "../api/axios";
 import useUtils from "../utils/useUtils";
 
-const COMPANY_URL = "/company/";
-const SEARCH_URL = COMPANY_URL + "search/"
+const EQUIPMENT_URL = "/equipment/";
+const SETS_URL = EQUIPMENT_URL + "sets/";
 
-const useCompany = () => {
+const useEquipmentSets = (companyId: any) => {
     const { checkbox, setCheckbox, handleChange } = useUtils(); // Use the functions and states from useUtils
-    const [tableData, setTableData] = useState<FilterTableCompanies[]>([]);
+    const [tableData, setTableData] = useState<EquipmentSet[]>([]);
     const [filter, setFilter] = useState(false)
-    const [filterData, setFilterData] = useState<FilterTableCompaniesParams>({
+    const [filterData, setFilterData] = useState<FilterTableEquipmentSetsParams>({
         searchText: "",
-        minRating: 1,
-        maxRating: 10,
-        exactRating: 1,
+        minQuantity: 1,
+        maxQuantity: 1000,
+        exactQuantity: 1,
     })
 
     const handleFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -49,17 +49,17 @@ const useCompany = () => {
             }
         }
 
-        if (checkbox.minMaxRating) {
+        if (checkbox.minMaxQuantity) {
             setCheckbox((prevData) => ({
                 ...prevData,
-                exactRating: false,
+                exactQuantity: false,
             }));
         }
 
-        if (checkbox.exactRating) {
+        if (checkbox.exactQuantity) {
             setCheckbox((prevData) => ({
                 ...prevData,
-                minMaxRating: false,
+                minMaxQuantity: false,
             }));
         }
     };
@@ -68,36 +68,36 @@ const useCompany = () => {
         setFilter(false)
         setFilterData({
             searchText: "",
-            minRating: 1,
-            maxRating: 10,
-            exactRating: 1,
+            minQuantity: 1,
+            maxQuantity: 10,
+            exactQuantity: 1,
         })
         setCheckbox({
             searchText: false,
-            minMaxRating: false,
-            exactRating: false,
+            minMaxQuantity: false,
+            exactQuantity: false,
         })
-        fetchCompanyData()
+        fetchEquipmentSetsByCompanyId()
     }
 
-    const fetchCompanyData = async () => {
+    const fetchEquipmentSetsByCompanyId = async () => {
         try {
-            const response = await axiosPrivate.get(SEARCH_URL + "all");
-            setTableData(response.data.companies);
+            const response = await axiosPrivate.get<EquipmentSetResponse>(`${SETS_URL}${companyId}`);
+            setTableData(response.data.equipmentSets);
         } catch (error: any) {
-            toast.error("Failed to fetch company data");
+            toast.error("Failed to fetch equipment sets by company ID");
         }
     };
 
-    const filterCompanyData = async () => {
+    const filterEquipmentSets = async () => {
         try {
             let params = "";
             if (checkbox.searchText === true)
                 params += "&searchText=" + filterData.searchText;
             if (checkbox.minMaxRating === true)
-                params += "&minRating=" + filterData.minRating + "&maxRating=" + filterData.maxRating;
-            if (checkbox.exactRating === true)
-                params += "&exactRating=" + filterData.exactRating;
+                params += "&minRating=" + filterData.minQuantity + "&maxQuantity=" + filterData.maxQuantity;
+            if (checkbox.exactQuantity === true)
+                params += "&exactQuantity=" + filterData.exactQuantity;
 
             if (params === "") {
                 toast.warning("You need to choose at least one filter!");
@@ -105,8 +105,8 @@ const useCompany = () => {
             }
             params = params.slice(1);
 
-            const response = await axiosPrivate.get(SEARCH_URL + "filter?" + params);
-            setTableData(response.data.companies);
+            const response = await axiosPrivate.get(SETS_URL + companyId + "/search/filter?" + params);
+            setTableData(response.data.equipmentSets);
         } catch (error: any) {
             toast.error("Failed to filter company data");
         }
@@ -114,21 +114,22 @@ const useCompany = () => {
 
     useEffect(() => {
         if (!filter) {
-            fetchCompanyData();
+            fetchEquipmentSetsByCompanyId();
         }
     }, [filter])
 
-
     return {
-        tableData,
+        filter,
         filterData,
         checkbox,
         handleChange,
         handleFilterChange,
         handleCheckboxChange,
         handleResetFilter,
-        fetchCompanyData,
-        filterCompanyData
-    }
-}
-export default useCompany;
+        tableData,
+        filterEquipmentSets,
+        fetchEquipmentSetsByCompanyId
+    };
+};
+
+export default useEquipmentSets;

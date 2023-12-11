@@ -3,13 +3,13 @@ import NoDataView from '../../views/NoDataView';
 
 interface TableColumn {
     name: string;
-    key?: string | string[]; // Allow for nested keys
+    key?: string | string[];
 }
 
 interface TableProps {
     columns: TableColumn[];
-    tableData: any[]; // Your data type
-    handleRowClick?: (id: number) => void; // Optional row click handler
+    tableData: any[];
+    handleRowClick?: (id: number) => void;
 }
 
 const TableComponent: React.FC<TableProps> = ({ columns, tableData, handleRowClick }) => {
@@ -27,6 +27,13 @@ const TableComponent: React.FC<TableProps> = ({ columns, tableData, handleRowCli
     return (
         <div className="tbl-content">
             <table>
+                <thead className='tbl-header'>
+                    <tr>
+                        {columns.map((column, colIndex) => (
+                            <th key={colIndex}>{column.name}</th>
+                        ))}
+                    </tr>
+                </thead>
                 <tbody>
                     {tableData.length > 0 ? (
                         tableData.map((item, index) => (

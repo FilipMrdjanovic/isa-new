@@ -79,11 +79,15 @@ table {
 .tbl-header {
   background-color: $table-bg-softer;
   color: $table-header-color !important;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .tbl-content {
   height: 488px;
-  overflow-x: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin-top: 0px;
 }
 
@@ -101,15 +105,27 @@ td {
   vertical-align: middle;
   font-weight: 300;
   font-size: 12px;
+  white-space: nowrap;
 }
 
-tbody tr {
-  cursor: pointer;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.2);
-}
+tbody {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
 
-tbody tr:nth-child(2n) {
-  background-color: $table-soft-color;
+  &::-webkit-scrollbar-thumb {
+    background-color: $table-color;
+    border-radius: 4px;
+  }
+
+  tr {
+    cursor: pointer;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+  }
+
+  tr:nth-child(2n) {
+    background-color: $table-soft-color;
+  }
 }
 
 .dropdown {

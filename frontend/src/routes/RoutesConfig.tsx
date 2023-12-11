@@ -1,22 +1,22 @@
 import { Route, Routes, Navigate } from "react-router-dom";
+import { AuthRoutesProps } from "../types/types";
+import Layout from "../layout/Layout";
 import Welcome from "../pages/welcome/Welcome";
 import Login from "../pages/login/Login";
 import Profile from "../pages/profile/Profile";
 import Register from "../pages/register/Register";
 import BasicDashboard from "../pages/dashboard/basic/BasicDashboard";
-import Layout from "../layout/Layout";
 import Companies from "../pages/companies/Companies";
 import UnauthorizedView from "../views/UnauthorizedView";
 import UnauthLayout from "../layout/UnauthLayout";
 import Home from "../pages/home/Home";
-import { AuthRoutesProps } from "../types/types";
-import BasicUser from "../pages/user/basic/BasicUser";
-import CompanyUser from "../pages/user/company/CompanyUser";
 import CompanyDashboard from "../pages/dashboard/company/CompanyDashboard";
 import SystemDashboard from "../pages/dashboard/system/SystemDashboard";
-import SystemUser from "../pages/user/system/SystemUser";
 import ServerNotRunningView from "../views/ServerNotRunningView";
 import Company from "../pages/company/Company";
+import BasicUser from "../pages/user/basic/BasicUser";
+import CompanyUser from "../pages/user/company/CompanyUser";
+import SystemUser from "../pages/user/system/SystemUser";
 
 const AuthRoutes = (props: AuthRoutesProps) => {
     const { role } = props;
@@ -28,7 +28,7 @@ const AuthRoutes = (props: AuthRoutesProps) => {
                     <Route path="/" element={<Navigate to="/dashboard" />} />
                     <Route path="/dashboard" element={<Layout><BasicDashboard /></Layout>} />
                     <Route path="/companies" element={<Layout><Companies /></Layout>} />
-                    <Route path={`/company/:id`} element={<Layout><Company /></Layout>} />
+                    <Route path={`/company/:id`} element={<Layout><Company /></Layout>}/>
                     <Route path="/user" element={<Layout><BasicUser /></Layout>} />
                     <Route path="/profile" element={<Layout><Profile /></Layout>} />
                     <Route path="/unauthorized" element={<Layout><UnauthorizedView /></Layout>} />
