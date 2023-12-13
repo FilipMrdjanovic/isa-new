@@ -17,7 +17,9 @@ public class EquipmentTransaction {
     @Id
     @GeneratedValue
     private Long id;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "pickup_schedule_id")
@@ -27,4 +29,14 @@ public class EquipmentTransaction {
     @JsonIgnore
     @JoinColumn(name = "equipment_set_id")
     private EquipmentSet equipmentSet;
+
+    @Override
+    public String toString() {
+        return "EquipmentTransaction{" +
+                "id=" + id +
+                ", user=" + user +
+                ", pickupSchedule=" + pickupSchedule +
+                ", equipmentSet=" + equipmentSet +
+                '}';
+    }
 }

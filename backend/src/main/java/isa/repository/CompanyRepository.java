@@ -1,11 +1,15 @@
 package isa.repository;
 
+import io.micrometer.observation.ObservationFilter;
 import isa.model.Company;
+import isa.model.Role;
+import isa.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
@@ -27,5 +31,10 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
             @Param("searchText") String searchText,
             @Param("exactRating") Double exactRating);
 
-    List<Company> findByAverageRating(Double averageRating);
+    Optional<Company> findById(Long companyId);
+
+    Optional<Company> findTopByOrderByIdDesc();
+
+    @Query(value = "SELECT * FROM company WHERE id >= :randId ORDER BY id LIMIT 1", nativeQuery = true)
+    Optional<Company> findRandomCompany(@Param("randId") Long randId);
 }

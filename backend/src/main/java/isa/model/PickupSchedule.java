@@ -23,6 +23,13 @@ public class PickupSchedule {
     private Long id;
     private LocalDate date;
     private LocalTime time;
+    private int duration;
+    private Boolean reserved;
+    private Boolean active;
+    private Boolean completed;
+
+    @Enumerated(EnumType.STRING)
+    private PickupScheduleType pickupScheduleType;
 
     @ManyToOne
     @JsonIgnore
@@ -32,4 +39,26 @@ public class PickupSchedule {
     @OneToMany(mappedBy = "pickupSchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<EquipmentTransaction> equipmentTransactions;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User companyAdmin;
+
+    @Override
+    public String toString() {
+        return "PickupSchedule{" +
+                "id=" + id +
+                ", date=" + date +
+                ", time=" + time +
+                ", duration=" + duration +
+                ", reserved=" + reserved +
+                ", active=" + active +
+                ", completed=" + completed +
+                ", pickupScheduleType=" + pickupScheduleType +
+                ", company=" + company +
+                ", equipmentTransactions=" + equipmentTransactions +
+                ", companyAdmin=" + companyAdmin +
+                '}';
+    }
 }

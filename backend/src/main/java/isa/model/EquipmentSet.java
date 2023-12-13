@@ -19,8 +19,8 @@ public class EquipmentSet {
     private Long id;
     private int quantity;
 
+    private boolean available = true;
     @ManyToOne
-//    @JsonIgnore
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 
@@ -28,4 +28,19 @@ public class EquipmentSet {
     @JsonIgnore
     @JoinColumn(name = "company_id")
     private Company company;
+
+    public EquipmentSet(int quantity, Equipment equipment, Company company) {
+        this.quantity = quantity;
+        this.equipment = equipment;
+        this.company = company;
+    }
+
+    @Override
+    public String toString() {
+        return "EquipmentSet{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", available=" + available +
+                '}';
+    }
 }

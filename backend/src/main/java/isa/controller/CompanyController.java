@@ -16,7 +16,6 @@ import java.util.Map;
 @RequestMapping("/api/company")
 @RequiredArgsConstructor
 public class CompanyController {
-
     private final CompanyService companyService;
 
     @GetMapping("/search/all")
@@ -55,4 +54,3 @@ public class CompanyController {
         }
     }
 }
-

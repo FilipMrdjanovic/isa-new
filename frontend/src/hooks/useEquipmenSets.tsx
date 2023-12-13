@@ -1,11 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { EquipmentSet, EquipmentSetResponse, FilterTableEquipmentSetsParams } from "../types/types";
+import { EquipmentSet, EquipmentSetResponse, EquipmentSetsResponse, FilterTableEquipmentSetsParams } from "../types/types";
 import axiosPrivate from "../api/axios";
 import useUtils from "../utils/useUtils";
 
 const EQUIPMENT_URL = "/equipment/";
 const SETS_URL = EQUIPMENT_URL + "sets/";
+const SPECIFIC_SET_URL = SETS_URL + "equipment-set/";
 
 const useEquipmentSets = (companyId: any) => {
     const { checkbox, setCheckbox, handleChange } = useUtils(); // Use the functions and states from useUtils
@@ -13,8 +14,6 @@ const useEquipmentSets = (companyId: any) => {
     const [filter, setFilter] = useState(false)
     const [filterData, setFilterData] = useState<FilterTableEquipmentSetsParams>({
         searchText: "",
-        minQuantity: 1,
-        maxQuantity: 1000,
         exactQuantity: 1,
     })
 
@@ -49,32 +48,16 @@ const useEquipmentSets = (companyId: any) => {
             }
         }
 
-        if (checkbox.minMaxQuantity) {
-            setCheckbox((prevData) => ({
-                ...prevData,
-                exactQuantity: false,
-            }));
-        }
-
-        if (checkbox.exactQuantity) {
-            setCheckbox((prevData) => ({
-                ...prevData,
-                minMaxQuantity: false,
-            }));
-        }
     };
 
     const handleResetFilter = () => {
         setFilter(false)
         setFilterData({
             searchText: "",
-            minQuantity: 1,
-            maxQuantity: 10,
             exactQuantity: 1,
         })
         setCheckbox({
             searchText: false,
-            minMaxQuantity: false,
             exactQuantity: false,
         })
         fetchEquipmentSetsByCompanyId()
@@ -82,7 +65,7 @@ const useEquipmentSets = (companyId: any) => {
 
     const fetchEquipmentSetsByCompanyId = async () => {
         try {
-            const response = await axiosPrivate.get<EquipmentSetResponse>(`${SETS_URL}${companyId}`);
+            const response = await axiosPrivate.get<EquipmentSetsResponse>(`${SETS_URL}${companyId}`);
             setTableData(response.data.equipmentSets);
         } catch (error: any) {
             toast.error("Failed to fetch equipment sets by company ID");
@@ -94,8 +77,6 @@ const useEquipmentSets = (companyId: any) => {
             let params = "";
             if (checkbox.searchText === true)
                 params += "&searchText=" + filterData.searchText;
-            if (checkbox.minMaxRating === true)
-                params += "&minRating=" + filterData.minQuantity + "&maxQuantity=" + filterData.maxQuantity;
             if (checkbox.exactQuantity === true)
                 params += "&exactQuantity=" + filterData.exactQuantity;
 
@@ -109,6 +90,15 @@ const useEquipmentSets = (companyId: any) => {
             setTableData(response.data.equipmentSets);
         } catch (error: any) {
             toast.error("Failed to filter company data");
+        }
+    }
+
+    const findSpecificEquipmentSet = async (equipmentSetId: string) => {
+        try {
+            const response = await axiosPrivate.get<EquipmentSetResponse>(`${SPECIFIC_SET_URL}${equipmentSetId}`);
+            return (response.data.equipmentSet);
+        } catch (error: any) {
+            toast.error("Failed to fetch equipment set by equipment set ID");
         }
     }
 
@@ -128,7 +118,8 @@ const useEquipmentSets = (companyId: any) => {
         handleResetFilter,
         tableData,
         filterEquipmentSets,
-        fetchEquipmentSetsByCompanyId
+        fetchEquipmentSetsByCompanyId,
+        findSpecificEquipmentSet
     };
 };
 

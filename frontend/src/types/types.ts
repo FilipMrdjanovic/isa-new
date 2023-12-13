@@ -63,8 +63,6 @@ export interface FilterTableCompaniesParams {
 
 export interface FilterTableEquipmentSetsParams {
   searchText: string;
-  minQuantity: number;
-  maxQuantity: number;
   exactQuantity: number;
 }
 
@@ -72,7 +70,6 @@ export type FilterCheckOptions = {
   searchText?: boolean;
   minMaxRating?: boolean;
   exactRating?: boolean;
-  minMaxQuantity?: boolean
   exactQuantity?: boolean
 };
 
@@ -98,11 +95,17 @@ export type EquipmentsResponse = {
   equipments: Equipment[];
 };
 
-export type EquipmentSetResponse = {
+export type EquipmentSetsResponse = {
   message: string;
   status: number;
   equipmentSets: EquipmentSet[];
 };
+
+export type EquipmentSetResponse = {
+    message: string;
+    status: number;
+    equipmentSet: EquipmentSet;
+  };
 
 export type EquipmentSet = {
   id: number;

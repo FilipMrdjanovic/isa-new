@@ -37,18 +37,24 @@ public class User implements UserDetails {
     private String organization;
     private int loyaltyPoints;
     private int penaltyPoints;
-
+    @JsonIgnore
+    private String verificationCode;
     @Enumerated(EnumType.STRING)
     @JsonIgnore
     private Role role;
-    @JsonIgnore
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
+    @JsonIgnore
+    private Company company;
+    @JsonIgnore
     private Boolean locked = false;
     @JsonIgnore
     private Boolean enabled = false;
 
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private String verificationCode;
+    private List<EquipmentTransaction> transactions;
 
     @JsonIgnore
     @Override
@@ -70,31 +76,60 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @Override
-    public String getUsername(){
+    public String getUsername() {
         return email;
     }
+
     @Override
     public String getPassword() {
         return password;
     }
+
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return !locked;
     }
+
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", phone='" + phone + '\'' +
+                ", occupation='" + occupation + '\'' +
+                ", organization='" + organization + '\'' +
+                ", loyaltyPoints=" + loyaltyPoints +
+                ", penaltyPoints=" + penaltyPoints +
+                ", verificationCode='" + verificationCode + '\'' +
+                ", role=" + role +
+                ", company=" + company +
+                ", locked=" + locked +
+                ", enabled=" + enabled +
+                ", transactions=" + transactions +
+                '}';
     }
 }

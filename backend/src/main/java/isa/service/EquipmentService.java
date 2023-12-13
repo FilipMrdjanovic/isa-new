@@ -1,17 +1,13 @@
 package isa.service;
 
-import isa.model.Company;
 import isa.model.Equipment;
 import isa.model.EquipmentSet;
-import isa.payload.response.CompanyFilterResponse;
 import isa.repository.EquipmentRepository;
 import isa.repository.EquipmentSetRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +38,10 @@ public class EquipmentService {
 
     public List<EquipmentSet> getEquipmentSetsByCompanyId(Long companyId) {
         return equipmentSetRepository.findByCompanyId(companyId);
+    }
+
+    public Optional<EquipmentSet> getEquipmentSetsByEquipmentSetId(Long equipmentSetId) {
+        return equipmentSetRepository.findById(equipmentSetId);
     }
 
     public ResponseEntity<?> filterEquipment(

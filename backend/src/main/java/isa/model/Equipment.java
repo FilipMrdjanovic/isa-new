@@ -24,4 +24,13 @@ public class Equipment {
         this.name = name;
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Equipment{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

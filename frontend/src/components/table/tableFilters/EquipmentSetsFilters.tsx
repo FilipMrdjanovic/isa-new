@@ -38,28 +38,6 @@ const EquipmentSetsFilters = ({
                         onChange={handleFilterChange}
                         placeholder="Search"
                     />
-                    <div className='label'>Minimal Quantity <p className='text'>{filterData.minQuantity}</p></div>
-                    <div className="range">
-                        <input
-                            className="custom-slider"
-                            type="range"
-                            name="minQuantity"
-                            min="1"
-                            max={filterData.maxQuantity}
-                            value={filterData.minQuantity}
-                            onChange={handleFilterChange} />
-                    </div>
-                    <div className='label'>Maximal Quantity <p className='text'>{filterData.maxQuantity}</p></div>
-                    <div className="range">
-                        <input
-                            className="custom-slider"
-                            type="range"
-                            name="maxQuantity"
-                            min={filterData.minQuantity}
-                            max="10"
-                            value={filterData.maxQuantity}
-                            onChange={handleFilterChange} />
-                    </div>
                     <div className='label' style={{marginTop:"-5px"}}>Exact Quantity
                         <input
                          style={{width: "95px"}}
@@ -91,17 +69,6 @@ const EquipmentSetsFilters = ({
                             />
                             <label className='ml10'>By Text</label>
                         </MenuItem>
-
-                        <MenuItem className="checkboxItem">
-                            <input
-                                type="checkbox"
-                                name="minMaxQuantity"
-                                checked={checkbox.minMaxQuantity}
-                                onChange={handleCheckboxChange}
-                            />
-                            <label className='ml10'>By Min and Max Quantity</label>
-                        </MenuItem>
-
                         <MenuItem className="checkboxItem">
                             <input
                                 type="checkbox"

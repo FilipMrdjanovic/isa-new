@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/equipment")
@@ -56,6 +57,20 @@ public class EquipmentController {
         return ResponseEntity.ok(
                 Map.of("status", 200, "message", "Equipment deleted successfully")
         );
+    }
+
+    @GetMapping("/sets/equipment-set/{equipmentSetId}")
+    public ResponseEntity<?> getEquipmentSetById(@PathVariable Long equipmentSetId) {
+        Optional<EquipmentSet> equipmentSet = equipmentService.getEquipmentSetsByEquipmentSetId(equipmentSetId);
+        if (equipmentSet.isPresent()) {
+            return ResponseEntity.ok(
+                    Map.of("status", 200, "message", "Equipment set found", "equipmentSet", equipmentSet.get())
+            );
+        } else {
+            return ResponseEntity.ok(
+                    Map.of("status", 404, "message", "No equipment sets found for provided id")
+            );
+        }
     }
 
     @GetMapping("/sets/{companyId}")

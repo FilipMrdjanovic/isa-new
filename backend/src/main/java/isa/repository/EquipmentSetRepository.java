@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EquipmentSetRepository extends JpaRepository<EquipmentSet, Long> {
     List<EquipmentSet> findByCompanyId(Long id);
@@ -35,4 +36,11 @@ public interface EquipmentSetRepository extends JpaRepository<EquipmentSet, Long
             @Param("companyId") Long companyId, // Include companyId as a parameter
             @Param("searchText") String searchText,
             @Param("exactQuantity") Integer exactQuantity);
+
+//    @Query("SELECT es FROM EquipmentSet es " +
+//            "WHERE es.company.id = :companyId " +
+//            "AND es.available = true " +
+//            "AND es.quantity > 0 " +
+//            "ORDER BY es.id ASC")
+    Optional<EquipmentSet> findFirstAvailableByCompanyId(@Param("companyId") Long companyId);
 }

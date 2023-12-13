@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -24,6 +25,10 @@ public class Company {
     private String address;
     private String city;
     private Double averageRating;
+    private LocalTime timeOfOpening;
+    private LocalTime timeOfClosing;
+    private int minDuration; // In minutes
+    private int maxDuration; // In minutes
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
@@ -35,10 +40,20 @@ public class Company {
     @JsonIgnoreProperties({"company"})
     private List<PickupSchedule> pickupSchedules;
 
-    public Company(String name, String address, String city, Double averageRating) {
-        this.name = name;
-        this.address = address;
-        this.city = city;
-        this.averageRating = averageRating;
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", averageRating=" + averageRating +
+                ", timeOfOpening=" + timeOfOpening +
+                ", timeOfClosing=" + timeOfClosing +
+                ", minDuration=" + minDuration +
+                ", maxDuration=" + maxDuration +
+                ", equipmentSets=" + equipmentSets +
+                ", pickupSchedules=" + pickupSchedules +
+                '}';
     }
 }
