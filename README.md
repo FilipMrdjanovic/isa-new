@@ -8,6 +8,8 @@ This repository contains the backend and frontend code for provided application.
 - Java 17
 - Maven
 
+### Spring Boot version **3.0.9**
+
 ### Getting Started
 1. Open a terminal and navigate to the `backend` directory.
 2. Run the following command to build and run the backend application:
