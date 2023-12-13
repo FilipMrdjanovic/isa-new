@@ -1,6 +1,7 @@
 package isa.service;
 
 import isa.model.Rank;
+import isa.model.Role;
 import isa.model.User;
 import isa.payload.request.UpdateForm;
 import isa.repository.RankRepository;
@@ -113,5 +114,12 @@ public class UserService {
                     return userRepository.save(existingUser);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
+    }
+
+    public User getCompanyAdmin(){
+        List<User> users = userRepository.findAllByRole(Role.COMPANY_ADMIN);
+        if (!users.isEmpty())
+            return users.get(0);
+        return null;
     }
 }
