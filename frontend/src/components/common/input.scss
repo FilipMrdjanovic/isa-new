@@ -1,30 +1,28 @@
 @import "./../../styles/variables.scss";
 
 .range {
-  // max-width: 130px !important;
   $track-height: 2px;
-  // $main-bg-soft: #999;
-  $thumb-size: calc($track-height * 10);
+  $thumb-size: calc(#{$track-height} * 10);
 
   @mixin rangeThumb {
     appearance: none;
     width: $thumb-size;
     height: $thumb-size;
     border-radius: 50%;
-    background: $main-color;
+    background: var(--main-color); // Use CSS variable
     cursor: pointer;
     border: none;
   }
 
   @mixin rangeTrack {
-    background: linear-gradient(to left, $soft-color 100%, $soft-color 0%);
+    background: linear-gradient(to left, var(--soft-color) 100%, var(--soft-color) 0%); // Use CSS variable
     height: $track-height;
     max-width: 100%;
     width: 100%;
     position: relative;
     border: none;
     border-radius: 20px;
-    margin: calc($thumb-size / 1.5);
+    margin: calc(#{$thumb-size} / 1.5);
     appearance: none;
   }
 
@@ -60,10 +58,10 @@
       @include rangeThumb;
     } // IE Styles
     &::-ms-fill-lower {
-      background: $soft-color;
+      background: var(--soft-color); // Use CSS variable
     }
     &::-ms-fill-upper {
-      background: $soft-color;
+      background: var(--soft-color); // Use CSS variable
     }
     &::-ms-track {
       color: transparent;
@@ -81,8 +79,7 @@ input[type=search]::-webkit-search-cancel-button {
   height: 1.3em;
   width: 1.3em;
   border-radius: 50em;
-  background: url('/x-solid.svg')
-    no-repeat 50% 50%;
+  background: url('/x-solid.svg') no-repeat 50% 50%;
   filter: invert(100);
   background-size: contain;
   opacity: 0;
@@ -93,9 +90,3 @@ input[type=search]:focus::-webkit-search-cancel-button {
   opacity: 0.8;
   pointer-events: all;
 }
-
-// input[type=number]::-webkit-inner-spin-button, 
-// input[type=number]::-webkit-outer-spin-button { 
-//     -webkit-appearance: none;
-//     appearance: none; 
-// }

@@ -70,7 +70,7 @@ export type FilterCheckOptions = {
   searchText?: boolean;
   minMaxRating?: boolean;
   exactRating?: boolean;
-  exactQuantity?: boolean
+  exactQuantity?: boolean;
 };
 
 export interface AuthRoutesProps {
@@ -102,13 +102,43 @@ export type EquipmentSetsResponse = {
 };
 
 export type EquipmentSetResponse = {
-    message: string;
-    status: number;
-    equipmentSet: EquipmentSet;
-  };
+  message: string;
+  status: number;
+  equipmentSet: EquipmentSet;
+};
 
 export type EquipmentSet = {
   id: number;
   quantity: number;
   equipment: Equipment;
+};
+
+export type TimeSlot = {
+  start: string;
+  end: string;
+};
+
+export type PickupSchedule = {
+  id: number;
+  date: string;
+  time: string;
+  duration: number;
+  reserved: boolean;
+  active: boolean;
+  completed: boolean;
+  pickupScheduleType: "PREDEFINED" | "USERDEFINED"; // Adjust this type according to your actual types
+};
+
+export type CreatePickupSchedule = {
+    id: number;
+    date: string;
+    time: string;
+    equipmentSetId: number;
+}
+
+export type AvailablePickupSchedulesResponse = {
+  message: string;
+  status: number;
+  pickupSchedules: PickupSchedule[];
+  freeTimeSlots?: TimeSlot[];
 };

@@ -35,8 +35,8 @@ const Companies = () => {
         filterCompanyData();
     }
 
-    const handleRowClick = (id: number) => {
-        navigate(`/company/${id}`);
+    const handleRowClick = (item: any) => {
+        navigate(`/company/${item.id}`);
     }
 
     return (

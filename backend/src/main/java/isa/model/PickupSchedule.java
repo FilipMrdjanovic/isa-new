@@ -24,9 +24,9 @@ public class PickupSchedule {
     private LocalDate date;
     private LocalTime time;
     private int duration;
-    private Boolean reserved;
-    private Boolean active;
-    private Boolean completed;
+    private Boolean reserved = false;
+    private Boolean active = false;
+    private Boolean completed = false;
 
     @Enumerated(EnumType.STRING)
     private PickupScheduleType pickupScheduleType;

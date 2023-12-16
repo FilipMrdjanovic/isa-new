@@ -1,5 +1,5 @@
-@import "../../styles/responsive.scss";
-@import "../../styles/variables.scss";
+@import "./../../styles/responsive.scss";
+@import "./../../styles/variables.scss";
 
 .navbar {
   width: 100%;
@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: $main-bg-darker;
+  background-color: var(--main-bg-darker); // Use CSS variable here
 
   .logo {
     display: flex;
@@ -20,10 +20,11 @@
     transition: 0.2s ease-in-out;
 
     &:hover {
-      color: $main-hover-light;
+      color: var(--main-hover-light); // Use CSS variable here
       cursor: pointer;
     }
   }
+
   .icons {
     display: flex;
     align-items: center;
@@ -33,11 +34,12 @@
 
     transition: 0.2s ease-in-out;
 
-    background-color: $main-bg-soft;
+    background-color: var(--main-bg-soft); // Use CSS variable here
     &:hover {
       cursor: pointer;
-      background-color: $main-bg-softer;
+      background-color: var(--main-bg-softer); // Use CSS variable here
     }
+
     .icon {
       @include sm {
         display: none;

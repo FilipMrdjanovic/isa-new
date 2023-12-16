@@ -1,15 +1,18 @@
 import styled from "styled-components";
 
+// Replace these with your CSS variable names from your theme
+const mainColor = 'var(--main-color)';
+const softColor = 'var(--soft-color)';
+
 export const ParentContainerStyles = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  background-color: white;
   border-radius: 20px;
   overflow-y: scroll;
-
+  background-color: ${mainColor}; /* Use CSS variable */
 `;
 
 export const UpperRowStyles = styled.div`
@@ -33,11 +36,10 @@ export const CenteredColumnStyles = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  border: 1px solid #ccc;
+  background-color: ${softColor}; /* Use CSS variable */
 `;
 
 export const LowerRowContainerStyles = styled.div`
-  border-bottom: 1px solid black;
   width: 100%;
   margin-top: 8px;
 `;
@@ -55,15 +57,14 @@ export const LowerColumnStyles = styled.div`
   max-width: 500px;
   margin: 10px;
   text-align: center;
-  user-select: none; /* Add this line to make the text non-selectable */
+  user-select: none;
   border-radius: 20px;
-  border: 3px solid rgba(0,0,0,0.2);
+  background-color: ${softColor}; /* Use CSS variable */
 `;
 
 export const VerticalLine = styled.div`
   height: 100%;
   width: 1px;
-  background-color: gray;
   margin: 0 20px;
 `;
 

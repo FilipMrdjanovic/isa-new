@@ -1,37 +1,31 @@
-import { createTheme } from '@mui/material/styles';
-declare module '@mui/material/styles' {
-    interface Palette {
-        teal: Palette['primary'];
-    }
+import { createTheme } from "@mui/material";
+import { amber, teal, grey } from "@mui/material/colors";
 
-    interface PaletteOptions {
-        teal?: PaletteOptions['primary'];
-    }
-}
-
-declare module '@mui/material/Button' {
-    interface ButtonPropsColorOverrides {
-        teal: true;
-    }
-}
-
-let theme = createTheme({
-    // Theme customization goes here as usual, including tonalOffset and/or
-    // contrastThreshold as the augmentColor() function relies on these
-});
-
-theme = createTheme(theme, {
+const customTheme = createTheme({
     palette: {
-        teal: theme.palette.augmentColor({
-            color: {
-                main: '#081c15',
-                // light: '#52b788',
-                // dark: '#2d6a4f',
-                // contrastText: '#d8f3dc',
-            },
-            name: 'teal',
-        }),
+        primary: {
+            main: teal[500], // #009688
+            contrastText: "#FFFFFF", // Text color against primary
+        },
+        secondary: {
+            main: amber[700], // #FF9800
+            contrastText: "#212121", // Text color against secondary
+        },
+        background: {
+            default: grey[900], // #212121
+            paper: "#00695c",
+        },
+        text: {
+            primary: "#FFFFFF", // Default text color
+            secondary: "#FFFFFF", // Secondary text color
+        },
     },
 });
+
+// Type casting to resolve TypeScript errors
+const theme = customTheme as any;
+
+// Add the custom property directly to the theme object
+theme.palette.background.secondaryPaper = "#00695c";
 
 export default theme;

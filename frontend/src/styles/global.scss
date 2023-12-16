@@ -1,12 +1,8 @@
-@import "./variables.scss";
 @import "./responsive.scss";
 
 body {
   overflow: hidden;
-  background-color: $main-bg;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
+  background-color: var(--soft-color);
 }
 
 * {
@@ -17,13 +13,12 @@ body {
 
 a {
   text-decoration: none;
-  color: inherit;
 }
 
 .main {
   font-family: "Inter", sans-serif;
-  background-color: $main-bg;
-  color: $main-color;
+  // background-color: var(--main-bg);
+  // color: var(--main-color);
   height: 100vh;
 }
 
@@ -34,8 +29,8 @@ a {
 
 ._container {
   padding: 20px;
-  background: #2d6a4f;
-  color: #d8f3dc;
+  // background: #2d6a4f;
+  // color: #d8f3dc;
   border-radius: 10px;
   box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
 }
@@ -43,8 +38,8 @@ a {
 .menuContainer {
   width: 250px;
   padding: 5px 20px;
-  border-right: 2px solid $soft-bg;
-  background-color: $main-bg-softer;
+  border-right: 2px solid var(--soft-bg);
+  // background-color: var(--main-bg-softer);
 
   ::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
@@ -56,7 +51,7 @@ a {
 }
 
 .navbar {
-  border-bottom: 2px solid $soft-bg;
+  border-bottom: 2px solid var(--soft-bg);
 }
 
 .contentContainer {
@@ -64,21 +59,21 @@ a {
   padding: 5px 20px;
   width: 100%;
   height: calc(100% - 67px);
-  background-color: $main-bg-soft;
+  // background-color: var(--main-bg-soft);
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .background-main-soft {
-  background-color: $main-bg-soft;
+  // background-color: var(--main-bg-soft);
 }
 
 input[type="text"] {
-  background: transparent;
+  // background: transparent;
   outline: none;
 }
 ::placeholder {
-  color: #d8f3dc;
+  // color: #d8f3dc;
   opacity: 0.5; /* Firefox */
 }
 
@@ -90,8 +85,8 @@ input[type="text"] {
   border: none;
   border-bottom: 2px solid #d8f3dc;
   box-sizing: border-box;
-  background: transparent;
-  color: #d8f3dc;
+  // background: transparent;
+  // color: #d8f3dc;
   outline: none;
 }
 
@@ -104,7 +99,7 @@ input[type="text"] {
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  // border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
 }
@@ -138,8 +133,8 @@ input[type="text"] {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
-  background: $main-bg-soft;
-  color: $main-color;
+  // background: var(--main-bg-soft);
+  // color: var(--main-color);
   font-size: 16px;
   cursor: pointer;
   transition: 0.2s all;
@@ -150,7 +145,7 @@ input[type="text"] {
 }
 
 .button-style:hover {
-  background: $soft-bg;
+  // background: var(--soft-bg);
 }
 
 .flex-center {
@@ -165,7 +160,7 @@ input[type="text"] {
 }
 
 .text-main-color{
-  color: $main-bg;
+  // color: var(--main-bg);
 }
 
 .text-center{
@@ -174,7 +169,7 @@ input[type="text"] {
 
 .white-element{
   padding: 40px;
-  background-color: white;
+  // background-color: white;
   border-radius: 20px;
 }
 
@@ -188,4 +183,25 @@ input[type="text"] {
 
 .ml10 {
   margin-left: 10px;
+}
+
+.customPupupStyle {
+  width: fit-content;
+  padding: 5px 10px;
+  line-height: 0.7;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 16px;
+  // color: #1b4332;
+  // background-color: #b7e4c7;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+.flexCenter {
+  display: flex;
+  margin: 0 auto;
+}
+
+input[type=time]::-webkit-datetime-edit-ampm-field {
+  display: none;
 }

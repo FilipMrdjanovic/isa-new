@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCompany from '../../hooks/useCompany';
-import { ThemeProvider } from 'styled-components';
-import theme from '../../theme/theme';
 import CompaniesFilters from '../../components/table/tableFilters/CompaniesFilters';
 import TableComponent from '../../components/table/TableComponent';
 import "../../components/table/Table.scss"
@@ -36,38 +34,36 @@ const Home = () => {
         filterCompanyData();
     }
 
-    const handleRowClick = (id: number) => {
-        navigate(`/company/${id}`);
+    const handleRowClick = (item: any) => {
+        navigate(`/company/${item.id}`);
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            <div className="table">
-                <div className="container">
-                    <div className="tbl-wrapper">
-                        <div className='table-content'>
-                            <TableComponent
-                                columns={columns}
-                                tableData={tableData}
-                                handleRowClick={handleRowClick}
-                            />
-                        </div>
-                        <CompaniesFilters
-                            filterData={filterData}
-                            checkbox={checkbox}
-                            handleFilterChange={handleFilterChange}
-                            handleCheckboxChange={handleCheckboxChange}
-                            handleClick={handleClick}
-                            handleSubmit={handleSubmit}
-                            handleResetFilter={handleResetFilter}
-                            anchorEl={anchorEl}
-                            open={open}
-                            handleClose={handleClose}
+        <div className="table">
+            <div className="container">
+                <div className="tbl-wrapper">
+                    <div className='table-content'>
+                        <TableComponent
+                            columns={columns}
+                            tableData={tableData}
+                            handleRowClick={handleRowClick}
                         />
                     </div>
+                    <CompaniesFilters
+                        filterData={filterData}
+                        checkbox={checkbox}
+                        handleFilterChange={handleFilterChange}
+                        handleCheckboxChange={handleCheckboxChange}
+                        handleClick={handleClick}
+                        handleSubmit={handleSubmit}
+                        handleResetFilter={handleResetFilter}
+                        anchorEl={anchorEl}
+                        open={open}
+                        handleClose={handleClose}
+                    />
                 </div>
             </div>
-        </ThemeProvider>
+        </div>
     );
 };
 

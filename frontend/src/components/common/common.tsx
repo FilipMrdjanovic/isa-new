@@ -19,7 +19,7 @@ export const InnerContainer = styled.div`
   padding: 6rem 4rem;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(15, 15, 15, 0.6);
-  background-color: #1c1c1c;
+//   background-color: #1c1c1c;
 `;
 
 export const InputWrapper = styled.div`
@@ -43,9 +43,9 @@ export const StyledTextInput = styled.input.attrs({
   margin: 8px 0;
   display: inline-block;
   border: none;
-  border-bottom: 2px solid #d8f3dc;
+//   border-bottom: 2px solid #d8f3dc;
   box-sizing: border-box;
-  color: #d8f3dc;
+//   color: #d8f3dc;
 `;
 
 export const StyledSelect = styled.select`
@@ -53,16 +53,35 @@ export const StyledSelect = styled.select`
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+//   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
 `;
 
 
 export const ErrorText = styled.span`
-  color: #eb5d5d;
+//   color: #eb5d5d;
   font-size: 18px;
   margin: 7px 0;
+`;
+
+export const StyledButton = styled.button`
+//   background-color: #2d6a4f;
+//   color: #9cc5a1;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+//   transition: background-color 0.3s ease;
+
+  &:hover {
+    // background-color: $main-hover;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const StyledMenu = styled((props: MenuProps) => (
@@ -83,8 +102,8 @@ export const StyledMenu = styled((props: MenuProps) => (
       borderRadius: 6,
       marginTop: theme.spacing(1),
       minWidth: 180,
-      color:
-        theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    //   color:
+    //     theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
       boxShadow:
         'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
       '& .MuiMenu-list': {
@@ -93,15 +112,16 @@ export const StyledMenu = styled((props: MenuProps) => (
       '& .MuiMenuItem-root': {
         '& .MuiSvgIcon-root': {
           fontSize: 18,
-          color: theme.palette.text.secondary,
+        //   color: theme.palette.text.secondary,
           marginRight: theme.spacing(1.5),
         },
         '&:active': {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            theme.palette.action.selectedOpacity,
-          ),
+        //   backgroundColor: alpha(
+        //     theme.palette.primary.main,
+        //     theme.palette.action.selectedOpacity,
+        //   ),
         },
       },
     },
   }));
+  

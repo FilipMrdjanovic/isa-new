@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { Grid, ThemeProvider } from "@mui/material";
+import { Grid } from "@mui/material";
 import Button from '@mui/material/Button';
 import { useAuth } from "../../api/auth/AuthContext";
 import { getRankColor } from "../../helpers/rank";
 import useUser from "../../hooks/useUser";
 import './Profile.scss'
-import theme from "../../theme/theme";
 
 const Profile = () => {
     const { auth } = useAuth();
@@ -35,7 +34,7 @@ const Profile = () => {
 
 
     return (
-        <ThemeProvider theme={theme}>
+        <div>
             <div className="content-wrapper">
                 <section className="content-header">
                     <h1>Profile</h1>
@@ -144,7 +143,6 @@ const Profile = () => {
                             className="button"
                             type='submit'
                             variant="contained"
-                            color="teal"
                             sx={{ margin: "10px 0" }}
                         >
                             Update
@@ -191,7 +189,6 @@ const Profile = () => {
                             className="button"
                             type='submit'
                             variant="contained"
-                            color="teal"
                             sx={{ margin: "10px 0" }}
                         >
                             Update
@@ -199,7 +196,7 @@ const Profile = () => {
                     </form>
                 </div>
             </div>
-        </ThemeProvider >
+        </div>
     )
 }
 

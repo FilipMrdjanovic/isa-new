@@ -14,6 +14,7 @@ import CompanyDashboard from "../pages/dashboard/company/CompanyDashboard";
 import SystemDashboard from "../pages/dashboard/system/SystemDashboard";
 import ServerNotRunningView from "../views/ServerNotRunningView";
 import Company from "../pages/company/Company";
+import CreateScheduleUser from "../pages/createScheduleUser/CreateScheduleUser";
 import BasicUser from "../pages/user/basic/BasicUser";
 import CompanyUser from "../pages/user/company/CompanyUser";
 import SystemUser from "../pages/user/system/SystemUser";
@@ -29,6 +30,7 @@ const AuthRoutes = (props: AuthRoutesProps) => {
                     <Route path="/dashboard" element={<Layout><BasicDashboard /></Layout>} />
                     <Route path="/companies" element={<Layout><Companies /></Layout>} />
                     <Route path={`/company/:id`} element={<Layout><Company /></Layout>}/>
+                    <Route path={`/company/:id/equipment-set/:eqId`} element={<Layout><CreateScheduleUser /></Layout>}/>
                     <Route path="/user" element={<Layout><BasicUser /></Layout>} />
                     <Route path="/profile" element={<Layout><Profile /></Layout>} />
                     <Route path="/unauthorized" element={<Layout><UnauthorizedView /></Layout>} />

@@ -32,8 +32,8 @@ public class DataSeeder implements CommandLineRunner {
         seedRanks();
         seedEquipment();
         seedEquipmentSets();
-//        seedPickupSchedule();
-//        seedUserPickupSchedule();
+        seedPickupSchedule();
+        seedUserPickupSchedule();
     }
 
     private void seedUsersAndCompanies() {

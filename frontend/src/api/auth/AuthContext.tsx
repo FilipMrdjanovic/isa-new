@@ -5,6 +5,7 @@ import { AuthData } from "../../types/types";
 import { toast } from "react-toastify";
 import axiosInstance from "../axios";
 import axios from "axios";
+import Loader from "../../components/loader/Loader";
 
 export interface AuthContextValue {
     auth: AuthData;
@@ -43,6 +44,9 @@ export const AuthProvider = (props: AuthProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
         storedAuthData ? true : false
     );
+
+    const [isLoading, setIsLoading] = useState<boolean>(false); // State to manage loader visibility
+
 
     const login = async (token: string) => {
         setIsAuthenticated(true)
@@ -107,19 +111,40 @@ export const AuthProvider = (props: AuthProps) => {
             refreshToken()
         };
 
+        const handleCustomEvent500 = () => {
+            console.log('Custom event 500 triggered. Internal Error - SERVER_ERROR');
+        };
+
         const serverDown = () => {
             console.log('Custom event serverDown. SERVER NOT RUNNING');
+            toast.error("Server is not currently available")
             logout()
+        };
+
+        const handleLoadingStart = () => {
+            setIsLoading(true); // Show loader when any request starts
+        };
+
+        const handleLoadingEnd = () => {
+            setIsLoading(false); // Hide loader when all requests are completed
         };
 
         document.addEventListener('customEvent401', handleCustomEvent401);
         document.addEventListener('customEvent403', handleCustomEvent403);
+        document.addEventListener('customEvent500', handleCustomEvent500);
         document.addEventListener('customEventServerDown', serverDown);
+
+        document.addEventListener('customEventLoadingStart', handleLoadingStart);
+        document.addEventListener('customEventLoadingEnd', handleLoadingEnd);
+
 
         return () => {
             document.removeEventListener('customEvent401', handleCustomEvent401);
             document.removeEventListener('customEvent403', handleCustomEvent403);
             document.removeEventListener('customEventServerDown', serverDown);
+
+            document.removeEventListener('customEventLoadingStart', handleLoadingStart);
+            document.removeEventListener('customEventLoadingEnd', handleLoadingEnd);
         };
     }, [])
 
@@ -133,9 +158,12 @@ export const AuthProvider = (props: AuthProps) => {
     };
 
     return (
-        <AuthContext.Provider value={authContextValue}>
-            {props.children}
-        </AuthContext.Provider>
+        <>
+            {isLoading && <Loader />}
+            <AuthContext.Provider value={authContextValue}>
+                {props.children}
+            </AuthContext.Provider>
+        </>
     );
 };
 

@@ -148,7 +148,6 @@ const Register = () => {
                                 className="button"
                                 type='submit'
                                 variant="contained"
-                                color="teal"
                                 sx={{ margin: "10px 0" }}
                             >
                                 Submit

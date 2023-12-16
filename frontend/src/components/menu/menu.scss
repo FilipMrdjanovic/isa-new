@@ -1,11 +1,10 @@
-@import "../../styles/variables.scss";
-@import "../../styles/responsive.scss";
+@import "./../../styles/variables.scss";
+@import "./../../styles/responsive.scss";
 
 .menu {
   height: 100%;
   overflow-y: scroll;
   
-
   .item {
     display: flex;
     flex-direction: column;
@@ -15,7 +14,7 @@
     .title {
       font-size: 12px;
       font-weight: 200;
-      color: $soft-color;
+      color: var(--soft-color); // Use CSS variable here
       text-transform: uppercase;
 
       @include lg {
@@ -32,7 +31,7 @@
 
       transition: 0.2s ease-in-out;
       &:hover {
-        background-color: $main-hover;
+        background-color: var(--main-hover); // Use CSS variable here
       }
 
       .listItemTitle {
