@@ -130,11 +130,11 @@ export type PickupSchedule = {
 };
 
 export type CreatePickupSchedule = {
-    id: number;
-    date: string;
-    time: string;
-    equipmentSetId: number;
-}
+  id: number;
+  date: string;
+  time: string;
+  equipmentSetId: number;
+};
 
 export type AvailablePickupSchedulesResponse = {
   message: string;
@@ -144,13 +144,19 @@ export type AvailablePickupSchedulesResponse = {
 };
 
 export type Transactions = {
-    id: number;
-    pickupSchedule: PickupSchedule; 
-    equipmentSet: EquipmentSet;
-}
+  id: number;
+  pickupSchedule: PickupSchedule;
+  equipmentSet: EquipmentSet;
+};
 
 export type TransactionResponse = {
-    message: string;
-    status: number;
-    transactions: Transactions[]
-}
+  message: string;
+  status: number;
+  transactions: Transactions[];
+};
+
+export type DatesResponse = {
+  message: string;
+  status: number;
+  dates: string[];
+};

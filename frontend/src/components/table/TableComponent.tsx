@@ -1,5 +1,7 @@
 import React from 'react';
 import NoDataView from '../../views/NoDataView';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 interface TableColumn {
     name: string;
@@ -24,9 +26,15 @@ const TableComponent: React.FC<TableProps> = ({ className, height, columns, tabl
             }
             return data;
         }
-        return rowData[columnKey];
-    };
 
+        const value = rowData[columnKey];
+
+        if (typeof value === 'boolean') {
+            return value ? <CheckIcon color='success'/> : <ClearIcon color='error'/>;
+        }
+
+        return value;
+    };
     return (
         <div className={`${className ? className : ""} tbl-content`} style={{ height: height }}>
             <table>

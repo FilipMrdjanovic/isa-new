@@ -315,13 +315,12 @@ public class PickupScheduleService {
             int day = date.getDayOfMonth();
             List<PickupSchedule> pickupSchedules = pickupScheduleRepository.findAllByCompanyIdAndDate(companyId, year, month, day);
 
-            List<TimeSlotResponse> unusedTimeSlots = calculateUnusedTimeSlots(companyId, date, pickupSchedules);
-            if (unusedTimeSlots.isEmpty()) {
+            if (pickupSchedules.isEmpty()) {
                 return ResponseEntity.ok(
                         Map.of("status", 404, "message", "No schedules found for given company and date"));
             }
-
-            return ResponseEntity.ok(unusedTimeSlots);
+            return ResponseEntity.ok(
+                    Map.of("status", 200, "message", "Schedules successfully found", "pickupSchedules", pickupSchedules));
         } catch (Exception e) {
             return ResponseEntity.ok(
                     Map.of("status", 500, "message", "Error finding schedules for company and date: " + e.getMessage()));
