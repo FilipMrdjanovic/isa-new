@@ -18,6 +18,7 @@ import CreateScheduleUser from "../pages/createScheduleUser/CreateScheduleUser";
 import BasicUser from "../pages/user/basic/BasicUser";
 import CompanyUser from "../pages/user/company/CompanyUser";
 import SystemUser from "../pages/user/system/SystemUser";
+import Schedule from "../pages/schedule/Schedule";
 
 const AuthRoutes = (props: AuthRoutesProps) => {
     const { role } = props;
@@ -33,6 +34,7 @@ const AuthRoutes = (props: AuthRoutesProps) => {
                     <Route path={`/company/:id/equipment-set/:eqId`} element={<Layout><CreateScheduleUser /></Layout>}/>
                     <Route path="/user" element={<Layout><BasicUser /></Layout>} />
                     <Route path="/profile" element={<Layout><Profile /></Layout>} />
+                    <Route path="/schedule" element={<Layout><Schedule /></Layout>} />
                     <Route path="/unauthorized" element={<Layout><UnauthorizedView /></Layout>} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </>

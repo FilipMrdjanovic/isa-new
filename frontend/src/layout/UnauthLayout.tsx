@@ -1,21 +1,23 @@
 import { Outlet } from "react-router-dom";
-import UnauthNavbar from "../components/navbar/UnauthNavbar";
+import MuiNavbarUnauth from "../components/navbar/mui/MuiNavbarUnauth";
+import { Box, CssBaseline } from "@mui/material";
+import { ThemeProvider } from "styled-components";
+import theme from "../theme/theme";
 
 type UnauthLayoutProps = {
     children: React.ReactNode;
-  };
+};
 
 const UnauthLayout = (props: UnauthLayoutProps) => { // Fix the parameter here
     return (
-        <div className="main">
-            <UnauthNavbar />
-            <div className="container">
-                <div className="contentContainer">
-                    <Outlet />
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <MuiNavbarUnauth />
+            <Box>
+                <Outlet />
                     {props.children}
-                </div>
-            </div>
-        </div>
+            </Box>
+        </ThemeProvider>
     );
 };
 export default UnauthLayout;

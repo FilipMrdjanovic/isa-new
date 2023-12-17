@@ -79,7 +79,6 @@ const useSchedule = (companyId: string | undefined) => {
             // toast.warning("Failed to create schedule");
         }
     };
-    
 
     const getTimeSlotsByCompanyAndDate = async (date: string) => {
         try {

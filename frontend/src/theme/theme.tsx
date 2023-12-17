@@ -1,31 +1,26 @@
-import { createTheme } from "@mui/material";
-import { amber, teal, grey } from "@mui/material/colors";
+import { amber, teal } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
 
-const customTheme = createTheme({
+const theme = createTheme({
     palette: {
-        primary: {
-            main: teal[500], // #009688
-            contrastText: "#FFFFFF", // Text color against primary
-        },
-        secondary: {
-            main: amber[700], // #FF9800
-            contrastText: "#212121", // Text color against secondary
-        },
-        background: {
-            default: grey[900], // #212121
-            paper: "#00695c",
-        },
-        text: {
-            primary: "#FFFFFF", // Default text color
-            secondary: "#FFFFFF", // Secondary text color
-        },
+      primary: {
+        main: "#40916c",
+        mainColor: "white",
+        tealDark: "#2d6a4f",
+      },
+      secondary: {
+        main: amber[500],
+      },
     },
-});
-
-// Type casting to resolve TypeScript errors
-const theme = customTheme as any;
-
-// Add the custom property directly to the theme object
-theme.palette.background.secondaryPaper = "#00695c";
-
-export default theme;
+    components: {
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: teal[500],
+            },
+          },
+        },
+      },
+  });
+  
+export default theme

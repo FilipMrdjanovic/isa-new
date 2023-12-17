@@ -142,3 +142,15 @@ export type AvailablePickupSchedulesResponse = {
   pickupSchedules: PickupSchedule[];
   freeTimeSlots?: TimeSlot[];
 };
+
+export type Transactions = {
+    id: number;
+    pickupSchedule: PickupSchedule; 
+    equipmentSet: EquipmentSet;
+}
+
+export type TransactionResponse = {
+    message: string;
+    status: number;
+    transactions: Transactions[]
+}

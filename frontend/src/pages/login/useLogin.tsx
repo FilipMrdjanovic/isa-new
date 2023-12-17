@@ -30,8 +30,6 @@ const useLogin = () => {
                 const redirectPath = location.state?.path || '/dashboard'
                 auth.login(response.data.token)
                 navigate(redirectPath, { replace: true })
-            } else {
-                toast.error(response.data.message);
             }
         } catch (error: any) {
             console.error('Error during login: ', error.message);

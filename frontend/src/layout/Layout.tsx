@@ -1,29 +1,45 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/navbar/Navbar";
-import Menu from "../components/menu/Menu";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from 'styled-components';
+import { Box, Card, CssBaseline, Toolbar } from "@mui/material";
+import MuiNavbar from "../components/navbar/mui/MuiNavbar";
+import MuiMenu from "../components/menu/mui/MuiMenu";
 import theme from "../theme/theme";
+
 
 type LayoutProps = {
     children: React.ReactNode;
 };
 
-const Layout = (props: LayoutProps) => { // Fix the parameter here
-    return (
+const drawerWidth = 240;
 
+const Layout = (props: LayoutProps) => {
+
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+
+    return (
         <ThemeProvider theme={theme}>
-            <div className="main">
-                <Navbar />
-                <div className="container">
-                    <div className="menuContainer">
-                        <Menu />
-                    </div>
-                    <div className="contentContainer">
-                        <Outlet />
+            <Box sx={{ display: 'flex' }}>
+                <CssBaseline />
+                <MuiNavbar drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
+                <MuiMenu drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                <Box
+                    component="main"
+                    className="contentContainer"
+                    sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+                >
+                    <Toolbar />
+                    <Outlet />
+                    <Card sx={{minHeight: "calc(100vh - 64px - 48px)"}}>
                         {props.children}
-                    </div>
-                </div>
-            </div>
+                    </Card>
+                </Box>
+            </Box>
         </ThemeProvider>
     );
 };

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useCompany from '../../hooks/useCompany';
 import CompaniesFilters from '../../components/table/tableFilters/CompaniesFilters';
 import TableComponent from '../../components/table/TableComponent';
@@ -19,8 +18,6 @@ const Home = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
-    const navigate = useNavigate();
-
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -34,10 +31,6 @@ const Home = () => {
         filterCompanyData();
     }
 
-    const handleRowClick = (item: any) => {
-        navigate(`/company/${item.id}`);
-    }
-
     return (
         <div className="table">
             <div className="container">
@@ -46,7 +39,6 @@ const Home = () => {
                         <TableComponent
                             columns={columns}
                             tableData={tableData}
-                            handleRowClick={handleRowClick}
                         />
                     </div>
                     <CompaniesFilters

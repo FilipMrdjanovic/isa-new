@@ -1,5 +1,7 @@
 package isa.controller;
 
+import isa.model.EquipmentTransaction;
+import isa.model.PickupSchedule;
 import isa.model.User;
 import isa.payload.request.UpdateForm;
 import isa.payload.request.UpdatePasswordRequest;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -59,7 +62,7 @@ public class UserController {
     @GetMapping("/rank")
     public ResponseEntity<?> getUserRank(@AuthenticationPrincipal User currentUser) {
         ResponseEntity<?> response = service.getUserRank(currentUser.getId());
-        return  response;
+        return response;
     }
 
     @PutMapping("/update")
@@ -88,5 +91,16 @@ public class UserController {
                     Map.of("status", 400, "message", "Failed to update password")
             );
         }
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<?> getMyTransactions(@AuthenticationPrincipal User currentUser) {
+        List<EquipmentTransaction> transactions = service.getMyTransactions(currentUser);
+        if (transactions.isEmpty()) {
+            return ResponseEntity.ok(
+                    Map.of("status", 404, "message", "No transactions planned"));
+        }
+        return ResponseEntity.ok(
+                Map.of("status", 200, "message", "Transactions successfully found", "transactions", transactions));
     }
 }

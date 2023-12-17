@@ -38,6 +38,7 @@ public class PickupScheduleService {
     private EntityManager entityManager;
 
 
+    //    for company users
     public ResponseEntity<?> createPickupSchedule(PickupScheduleRequest request, User user) {
         try {
             Company company = user.getCompany();
@@ -62,6 +63,9 @@ public class PickupScheduleService {
                     .time(time)
                     .duration(duration)
                     .pickupScheduleType(PickupScheduleType.PREDEFINED)
+                    .reserved(false)
+                    .completed(false)
+                    .active(false)
                     .company(company)
                     .companyAdmin(user)
                     .build();
@@ -106,6 +110,8 @@ public class PickupScheduleService {
                     .time(time)
                     .duration(duration)
                     .reserved(true)
+                    .completed(false)
+                    .active(false)
                     .pickupScheduleType(PickupScheduleType.USERDEFINED)
                     .company(company.get())
                     .companyAdmin(userService.getCompanyAdmin())

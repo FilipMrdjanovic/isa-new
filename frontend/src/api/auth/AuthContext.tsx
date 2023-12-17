@@ -116,9 +116,9 @@ export const AuthProvider = (props: AuthProps) => {
         };
 
         const serverDown = () => {
+            logout();
             console.log('Custom event serverDown. SERVER NOT RUNNING');
             toast.error("Server is not currently available")
-            logout()
         };
 
         const handleLoadingStart = () => {

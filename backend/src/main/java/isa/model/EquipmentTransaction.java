@@ -18,15 +18,14 @@ public class EquipmentTransaction {
     @GeneratedValue
     private Long id;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "pickup_schedule_id")
     private PickupSchedule pickupSchedule;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "equipment_set_id")
     private EquipmentSet equipmentSet;
 

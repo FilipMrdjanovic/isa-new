@@ -1,9 +1,8 @@
 package isa.service;
 
-import isa.model.Rank;
-import isa.model.Role;
-import isa.model.User;
+import isa.model.*;
 import isa.payload.request.UpdateForm;
+import isa.repository.EquipmentTransactionRepository;
 import isa.repository.RankRepository;
 import isa.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RankRepository rankRepository;
+    private final EquipmentTransactionRepository equipmentTransactionRepository;
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElse(null);
@@ -121,5 +122,12 @@ public class UserService {
         if (!users.isEmpty())
             return users.get(0);
         return null;
+    }
+
+    public List<EquipmentTransaction> getMyTransactions(User user){
+        List<EquipmentTransaction> transactions = equipmentTransactionRepository.findByUser(user);
+        if(transactions.isEmpty())
+            return new ArrayList<>();
+        return transactions;
     }
 }

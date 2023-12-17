@@ -36,12 +36,9 @@ const useRegister = () => {
 
         try {
             const response = await axiosInstance.post('/auth/register', formData);
-            if (response.data.statusCodeValue === 200) {
-                toast.success(response.data.body);
+            if (response.data.status === 200) {
+                toast.success(response.data.message);
                 navigator('/login');
-            } else {
-                console.error(response.data);
-                toast.error(response.data.body);
             }
         } catch (error: any) {
             console.error('Error during registration: ', error.message);
